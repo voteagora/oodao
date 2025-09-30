@@ -35,6 +35,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** A recognized platform (e.g. Agora).  
 **Purpose:** Declare the DAO and assign its initial authority.  
+**Revokable:** False.
 
 **Fields:**
 - `dao_uuid` (`bytes32`): Unique identifier for this DAO.  
@@ -47,6 +48,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded), but valid only if the issuer has authority.  
 **Purpose:** Assign permissions to subjects within a DAO.  
+**Revokable:** True.
 
 **Fields:**
 - `dao_uuid` (`bytes32`): Target DAO.  
@@ -65,6 +67,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded), ignored if permissions aren’t set.  
 **Purpose:** Define proposal classes for the DAO.  
+**Revokable:** True.
 
 **Fields:**
 - `dao_uuid` (`bytes32`).  
@@ -78,6 +81,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded), but valid only if the issuer has `CREATE_PROPOSAL` permissions.  
 **Purpose:** Submit a proposal under a DAO-defined type.  
+**Revocable:** True.
 
 **Fields:**
 - `dao_uuid` (`bytes32`).  
@@ -94,6 +98,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a simple numeric choice.  
+**Revocable:** False.
 
 **Fields:**
 - `dao_uuid` (`bytes32`).  
@@ -109,6 +114,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a JSON-encoded choice payload.  
+**Revocable:** False.
 
 **Fields:**
 - `dao_uuid` (`bytes32`).  
@@ -124,6 +130,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Issuer:** Anyone (unguarded), but interpreted only if issuer has `UNDO` permissions.  
 **Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.  
+**Revocable:** False.
 
 **Fields:**
 - `dao_uuid` (`bytes32`).  
