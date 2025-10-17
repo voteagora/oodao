@@ -23,13 +23,13 @@ EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 
 # Schema definitions for each attestation type
 SCHEMAS = {
-    "INSTANTIATE": "bytes32 dao_uuid,uint8 protocol_version,string name",
-    "GRANT": "bytes32 dao_uuid,address subject,string permission,uint8 level,string filter",
-    "CREATE_PROPOSAL_TYPE": "bytes32 dao_uuid,bytes32 proposal_type_uuid,string class,string kwargs",
-    "CREATE_PROPOSAL": "bytes32 dao_uuid,bytes32 proposal_uuid,bytes32 proposal_type_uuid,string title,string description,uint64 startts,uint64 endts",
-    "SIMPLE_VOTE": "bytes32 dao_uuid,bytes32 proposal_uuid,address voter,int8 choice,string reason,uint256 weight",
-    "ADVANCED_VOTE": "bytes32 dao_uuid,bytes32 proposal_uuid,address voter,string choice,string reason,uint256 weight",
-    "UNDO": "bytes32 dao_uuid,bytes32 uid"
+    "INSTANTIATE": "uint8 protocol_version,string name", # recipient = dao_id, refUID = 0x0
+    "GRANT": "address verb,string permission,uint8 level,string filter", # recipient = dao_id, refUID = 0x0
+    "CREATE_PROPOSAL_TYPE": "string class,string kwargs", # recipient = dao_id, refUID = 0x0
+    "CREATE_PROPOSAL": "bytes32 proposal_type_uuid,string title,string description,uint64 startts,uint64 endts", # recipient = dao_id, refUID = proposal_type_uid
+    "SIMPLE_VOTE": "address voter,int8 choice,string reason,uint256 weight", # recipient = dao_id, refUID = proposal_uid
+    "ADVANCED_VOTE": "address voter,string choice,string reason,uint256 weight", # recipient = dao_id, refUID = proposal_uid
+    "UNDO": "string verb" # recipient = dao_id, refUID = uid
 }
 
 REVOCABILITY = {k : "true" for k in SCHEMAS.keys()}
@@ -44,16 +44,20 @@ def get_env_config() -> Dict[str, str]:
     chain_id = os.getenv("CHAIN_ID")
     rpc_url = os.getenv("RPC_URL")
     forge_account = os.getenv("FORGE_ACCOUNT")
+    dao_id = os.getenv("DAO_ID")
 
-    if not all([chain_id, rpc_url, forge_account]):
+    dao_id = to_checksum_address(dao_id)    
+
+    if not all([chain_id, rpc_url, forge_account, dao_id]):
         click.echo("Error: Missing required environment variables in .env file", err=True)
-        click.echo("Required: CHAIN_ID, RPC_URL, FORGE_ACCOUNT", err=True)
+        click.echo("Required: CHAIN_ID, RPC_URL, FORGE_ACCOUNT, DAO_ID", err=True)
         sys.exit(1)
 
     return {
         "chain_id": chain_id,
         "rpc_url": rpc_url,
-        "forge_account": forge_account
+        "forge_account": forge_account,
+        "dao_id": dao_id
     }
 
 
@@ -142,138 +146,6 @@ def get_schema_id(attestation_command: str):
     return uid
 
 
-@cli.command()
-@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-@click.argument("args", nargs=-1)
-def attest(attestation_command: str, args: tuple):
-    """Create an attestation with the given arguments.
-
-    ATTESTATION_COMMAND: One of INSTANTIATE, GRANT, CREATE_PROPOSAL_TYPE,
-    CREATE_PROPOSAL, SIMPLE_VOTE, ADVANCED_VOTE, UNDO
-
-    ARGS: Space-separated arguments matching the schema fields
-
-    Examples:
-
-      eas_cli.py attest INSTANTIATE 0x123... v0.1.0 "My DAO"
-
-      eas_cli.py attest GRANT 0x123... 0xabc... CREATE_PROPOSAL 1 ""
-
-      eas_cli.py attest SIMPLE_VOTE 0x123... 0xdef... 0xabc... 1 "I support this" 100
-    """
-    attestation_command = attestation_command.upper()
-    config = get_env_config()
-    schema = SCHEMAS[attestation_command]
-
-    uid = get_schema_id(attestation_command)  
-
-    print(uid)
-
-    # Parse schema to get expected field count
-    schema_fields = [f.strip().split()[1] for f in schema.split(',')]
-
-    if len(args) != len(schema_fields):
-        click.echo(f"Error: Expected {len(schema_fields)} arguments for {attestation_command}", err=True)
-        click.echo(f"Schema fields: {', '.join(schema_fields)}", err=True)
-        click.echo(f"Received {len(args)} arguments", err=True)
-        sys.exit(1)
-
-    click.echo(f"Creating attestation: {attestation_command}")
-    click.echo(f"Arguments: {args}")
-
-    eas_contract = EAS_CONTRACTS[config["chain_id"]]
-
-    uid = get_schema_id(attestation_command)
-
-    # Build forge command for attestation
-    # Encode arguments as ABI-encoded data
-    cast_args = [
-        "send",
-        eas_contract,
-        "attest((bytes32,(address,uint64,bool,bytes32,bytes,uint256)))(bytes32)",
-        uid,
-        *args,
-        "--rpc-url", config["rpc_url"],
-        "--account", config["forge_account"],
-        "--chain-id", config["chain_id"]
-    ]
-
-    result = run_ext_command("cast", cast_args)
-    click.echo("Attestation created successfully!")
-    click.echo(result.stdout)
-
-
-@cli.command()
-@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-@click.argument("args", nargs=-1)
-def attest2(attestation_command: str, args: tuple):
-    """Create an attestation with the given arguments.
-
-    ATTESTATION_COMMAND: One of INSTANTIATE, GRANT, CREATE_PROPOSAL_TYPE,
-    CREATE_PROPOSAL, SIMPLE_VOTE, ADVANCED_VOTE, UNDO
-
-    ARGS: Space-separated arguments matching the schema fields
-
-    Examples:
-
-      eas_cli.py attest INSTANTIATE 0x123... v0.1.0 "My DAO"
-
-      eas_cli.py attest GRANT 0x123... 0xabc... CREATE_PROPOSAL 1 ""
-
-      eas_cli.py attest SIMPLE_VOTE 0x123... 0xdef... 0xabc... 1 "I support this" 100
-    """
-    attestation_command = attestation_command.upper()
-    config = get_env_config()
-    schema = SCHEMAS[attestation_command]
-
-    schema_uid = get_schema_id(attestation_command)
-    eas_contract = EAS_CONTRACTS[config["chain_id"]]
-
-    # Parse schema fields (extract only the types)
-    schema_fields = [f.strip().split()[0] for f in schema.split(',')]
-
-    if len(args) != len(schema_fields):
-        click.echo(f"Error: Expected {len(schema_fields)} arguments for {attestation_command}", err=True)
-        click.echo(f"Schema fields: {schema}", err=True)
-        click.echo(f"Received {len(args)} arguments", err=True)
-        sys.exit(1)
-
-    click.echo(f"Creating attestation: {attestation_command}")
-    click.echo(f"Arguments: {args}")
-
-    # Step 1: ABI-encode the schema-specific payload
-    abi_sig = "f(" + ",".join(schema_fields) + ")"
-    encode_cmd = ["abi-encode", abi_sig, *args]
-    enc_result = run_ext_command("cast", encode_cmd)
-    encoded_bytes = enc_result.stdout.strip()
-
-    # Step 2: Construct AttestationRequestData
-    # recipient=0x0, expirationTime=0, revocable=true, refUID=0, data=encoded_bytes, value=0
-    attestation_data = (
-        f"(0x0000000000000000000000000000000000000000,"
-        f"0,true,"
-        f"0x0000000000000000000000000000000000000000000000000000000000000000,"
-        f"{encoded_bytes},"
-        f"0)"
-    )
-
-    # Step 3: Call EAS.attest
-    cast_args = [
-        "send",
-        eas_contract,
-        "attest((bytes32,(address,uint64,bool,bytes32,bytes,uint256)))(bytes32)",
-        schema_uid,
-        attestation_data,
-        "--rpc-url", config["rpc_url"],
-        "--account", config["forge_account"],
-        "--chain-id", str(config["chain_id"])
-    ]
-
-    result = run_ext_command("cast", cast_args)
-    click.echo("✅ Attestation created successfully!")
-    click.echo(result.stdout)
-
-
 def normalize_bytes32(val: str) -> str:
     """
     Normalize a CLI argument into a valid 0x-prefixed 32-byte hex string.
@@ -295,8 +167,10 @@ def normalize_bytes32(val: str) -> str:
 @cli.command()
 @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
 @click.argument("args", nargs=-1)
-def attest3(attestation_command: str, args: tuple):
+def attest(dao_uuid: str, attestation_command: str, args: tuple):
     """Create an attestation with the given arguments.
+
+    DAO_UUID: Address of the DAO (used as recipient)
 
     ATTESTATION_COMMAND: One of INSTANTIATE, GRANT, CREATE_PROPOSAL_TYPE,
     CREATE_PROPOSAL, SIMPLE_VOTE, ADVANCED_VOTE, UNDO
@@ -305,15 +179,20 @@ def attest3(attestation_command: str, args: tuple):
 
     Examples:
 
-      eas_cli.py attest2 INSTANTIATE 0x123... v0.1.0 "My DAO"
+      eas_cli.py attest INSTANTIATE 0x123... 1 "My DAO"
 
-      eas_cli.py attest2 GRANT 0x123... 0xabc... CREATE_PROPOSAL 1 ""
+      eas_cli.py attest GRANT 0x123... 0xabc... CREATE_PROPOSAL 1 ""
 
-      eas_cli.py attest2 SIMPLE_VOTE 0x123... 0xdef... 0xabc... 1 "I support this" 100
+      eas_cli.py attest SIMPLE_VOTE 0x123... 0xdef... 0xabc... 1 "I support this" 100
     """
     attestation_command = attestation_command.upper()
     config = get_env_config()
     schema = SCHEMAS[attestation_command]
+
+    dao_id = config['dao_id']
+
+    # Checksum the DAO address
+    dao_address = to_checksum_address(dao_uuid)
 
     schema_uid = get_schema_id(attestation_command)
     eas_contract = EAS_CONTRACTS[config["chain_id"]]
@@ -348,9 +227,9 @@ def attest3(attestation_command: str, args: tuple):
     # Step 2: Build AttestationRequestData tuple
     attestation_data = (
         "(" +
-        "0x0000000000000000000000000000000000000000," +  # recipient
+        f"{dao_id}," +                                 # recipient
         "0," +                                         # expirationTime
-        revocable +"," +                                      # revocable
+        revocable +"," +                               # revocable
         "0x0000000000000000000000000000000000000000000000000000000000000000," +  # refUID
         f"{encoded_bytes}," +                          # data
         "0" +                                          # value

@@ -38,7 +38,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **Revokable:** False.
 
 **Fields:**
-- `dao_uuid` (`bytes32`): Unique identifier for this DAO.  
+- `dao_uuid` (`address`): Unique identifier for this DAO.  
 - `protocol_version` (`string`): Version of the protocol spec (for forwards compatibility).  
 - `name` (`string`): Human-readable name of the DAO.  
 
