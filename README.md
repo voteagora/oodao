@@ -1,4 +1,4 @@
-# EAS Protocol CLI
+# An On & Offchain DAO Protocol using EAS
 
 A Python command-line tool for deploying schemas and creating attestations using the [On & Offchain Attestation DAO Protocol](./protocol.md) with Ethereum Attestation Service (EAS).
 
