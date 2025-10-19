@@ -43,6 +43,8 @@ SCHEMAS = {
 
 REVOCABILITY = {k : "true" for k in SCHEMAS.keys()}
 REVOCABILITY['PERMA_INSTANTIATE'] = "false"
+REVOCABILITY['DELEGATED_SIMPLE_VOTE'] = "false"
+REVOCABILITY['DELEGATED_ADVANCED_VOTE'] = "false"
 REVOCABILITY['SIMPLE_VOTE'] = "false"
 REVOCABILITY['ADVANCED_VOTE'] = "false"
 REVOCABILITY['UNDO'] = "false"
@@ -142,7 +144,7 @@ def get_schema_id(attestation_command: str):
     resolver = to_checksum_address("0x0000000000000000000000000000000000000000")
     revocable = REVOCABILITY[attestation_command]
 
-    print(["string", "address", "bool"], [schema, resolver, revocable == "true"])
+    # print(["string", "address", "bool"], [schema, resolver, revocable == "true"])
 
     # abi.encodePacked equivalent:
     packed = b""
@@ -171,6 +173,60 @@ def normalize_bytes32(val: str) -> str:
         raise click.ClickException(f"Value too long for bytes32: {val}")
 
     return "0x" + hexstr.lower()
+
+
+@cli.command()
+@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False), required=False)
+def schema_hash(attestation_command: str = None):
+    """Generate the Keccak-256 hash (schema UID) for schemas.
+
+    If ATTESTATION_COMMAND is provided, generates the hash for that specific schema.
+    Otherwise, generates hashes for all schemas in the SCHEMAS dictionary.
+
+    Examples:
+
+      eas_cli.py schema-hash
+
+      eas_cli.py schema-hash INSTANTIATE
+    """
+    if attestation_command:
+        # Generate hash for specific schema
+        attestation_command = attestation_command.upper()
+        schema = SCHEMAS[attestation_command]
+        schema_uid = get_schema_id(attestation_command)
+        revocable = REVOCABILITY[attestation_command]
+
+        click.echo(f"\nSchema: {attestation_command}")
+        click.echo(f"  Definition: {schema}")
+        click.echo(f"  Revocable: {revocable}")
+        click.echo(f"  UID: 0x{schema_uid}")
+    else:
+        # Generate hashes for all schemas
+        click.echo("\nGenerating schema UIDs for all schemas:\n")
+        for schema_name in SCHEMAS.keys():
+            schema = SCHEMAS[schema_name]
+            schema_uid = get_schema_id(schema_name)
+            revocable = REVOCABILITY[schema_name]
+
+            click.echo(f"{schema_name}:")
+            click.echo(f"  Definition: {schema}")
+            click.echo(f"  Revocable: {revocable}")
+            click.echo(f"  UID: 0x{schema_uid}")
+            click.echo()
+
+
+@cli.command()
+def schema_hashes():
+    """List all schema names with their UIDs in compact format.
+
+    Example output:
+      INSTANTIATE : 0x1aabc49db4e9e0bbff60eb079e9316524d183cd783da298ca54f2db449218923
+      PERMA_INSTANTIATE : 0xe85e53a6d27f83a8d9e6ee94d01a312f54e82de919a708c17a9da6a899258cd1
+      ...
+    """
+    for schema_name in SCHEMAS.keys():
+        schema_uid = get_schema_id(schema_name)
+        click.echo(f"{schema_name} : 0x{schema_uid}")
 
 
 @cli.command()
