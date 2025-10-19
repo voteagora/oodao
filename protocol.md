@@ -1,8 +1,7 @@
-# On & Offchain Attestation DAO Protocol v0.1.0
+# On & Offchain Attestation DAO Protocol v0.2.0
 
 **Status:** Draft  
-**Version:** 0.1.0  
-**Authors:** Open Governance Community  
+**Version:** 0.2.0  
 **Depends on:** [Ethereum Attestation Service (EAS)](https://attest.sh/)  
 
 ---
@@ -37,104 +36,144 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **Purpose:** Declare the DAO and assign its initial authority.  
 **Revokable:** False.
 
-**Fields:**
-- `dao_uuid` (`address`): Unique identifier for this DAO.  
-- `protocol_version` (`string`): Version of the protocol spec (for forwards compatibility).  
+**Recipient:** `dao_uuid` (`address`) - Unique identifier for this DAO.  The client is expected to instantiate this, and avoid collissions.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
 - `name` (`string`): Human-readable name of the DAO.  
 
 ---
 
-### 3.2 `GRANT`
+### 3.2 `PERMA_INSTANTIATE`
+
+**Issuer:** A recognized platform (e.g. Agora).
+**Purpose:** Permanently declare the DAO and assign its initial authority. Unlike INSTANTIATE, this version is immutable.
+**Revokable:** False.
+
+**Recipient:** `dao_uuid` (`address`) - Unique identifier for this DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
+- `name` (`string`): Human-readable name of the DAO.
+
+---
+
+### 3.3 `GRANT`
 
 **Issuer:** Anyone (unguarded), but valid only if the issuer has authority.  
 **Purpose:** Assign permissions to subjects within a DAO.  
 **Revokable:** True.
 
-**Fields:**
-- `dao_uuid` (`bytes32`): Target DAO.  
-- `subject` (`address`): Address being granted permissions.  
-- `permission` (`string`): One of: `"GRANT"`, `"CREATE_PROPOSAL_TYPE"`, `"CREATE_PROPOSAL"`.  
-- `level` (`uint8`): Bitmask toggling available powers:  
-  - Bit 0 (`1`): CREATE  
-  - Bit 1 (`2`): REVOKE  
-  - Bit 2 (`4`): UNDO  
-  Example: `7` (binary `111`) grants create, revoke, and undo.  
-- `filter` (`string`, optional): JSON string for further granularity (e.g., restrict `GRANT` to certain subsets).  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `verb` (`address`): Address being granted permissions.
+- `permission` (`string`): One of: `"GRANT"`, `"CREATE_PROPOSAL_TYPE"`, `"CREATE_PROPOSAL"`.
+- `level` (`uint8`): Bitmask toggling available powers:
+  - Bit 0 (`1`): CREATE
+  - Bit 1 (`2`): REVOKE
+  - Bit 2 (`4`): UNDO
+  Example: `7` (binary `111`) grants create, revoke, and undo.
+- `filter` (`string`): JSON string for further granularity (e.g., restrict `GRANT` to certain subsets).  
 
 ---
 
-### 3.3 `CREATE_PROPOSAL_TYPE`
+### 3.4 `CREATE_PROPOSAL_TYPE`
 
 **Issuer:** Anyone (unguarded), ignored if permissions aren’t set.  
 **Purpose:** Define proposal classes for the DAO.  
 **Revokable:** True.
 
-**Fields:**
-- `dao_uuid` (`bytes32`).  
-- `proposal_type_uuid` (`bytes32`): Unique ID for the proposal type.  
-- `class` (`string`): Proposal class. Supported values: `"standard"`, `"approval"`, `"optimistic"`.  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (returns `bytes32` proposal_type_uid)
+
+**Schema Fields:**
+- `class` (`string`): Proposal class. Supported values: `"standard"`, `"approval"`, `"optimistic"`.
 - `kwargs` (`string`): JSON payload of keyword arguments used when creating proposals.  
 
 ---
 
-### 3.4 `CREATE_PROPOSAL`
+### 3.5 `CREATE_PROPOSAL`
 
 **Issuer:** Anyone (unguarded), but valid only if the issuer has `CREATE_PROPOSAL` permissions.  
 **Purpose:** Submit a proposal under a DAO-defined type.  
 **Revocable:** True.
 
-**Fields:**
-- `dao_uuid` (`bytes32`).  
-- `proposal_uuid` (`bytes32`).  
-- `proposal_type_uuid` (`bytes32`).  
-- `title` (`string`).  
-- `description` (`string`).  
-- `startts` (`uint64`): Start timestamp.  
-- `endts` (`uint64`): End timestamp.  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `proposal_type_uid` or `0x0` if no type specified
+
+**Schema Fields:**
+- `proposal_id` (`uint256`): Unique identifier for this proposal.
+- `title` (`string`): Proposal title.
+- `description` (`string`): Proposal description.
+- `startts` (`uint64`): Start timestamp.
+- `endts` (`uint64`): End timestamp.
+- `tags` (`string`): Tags for categorizing the proposal.  
 
 ---
 
-### 3.5 `SIMPLE_VOTE`
+### 3.6 `SET_PROPOSAL_TYPE`
+
+**Issuer:** Anyone (unguarded), but valid only if the issuer has appropriate permissions.
+**Purpose:** Associate a proposal with a specific proposal type after creation.
+**Revocable:** True.
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `proposal_type_uid` - The proposal type to assign
+
+**Schema Fields:**
+- `proposal_id` (`uint256`): The proposal to update with a type.
+
+---
+
+### 3.7 `SIMPLE_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a simple numeric choice.  
 **Revocable:** False.
 
-**Fields:**
-- `dao_uuid` (`bytes32`).  
-- `proposal_uuid` (`bytes32`).  
-- `voter` (`address`).  
-- `choice` (`int8`): e.g. `1 = For`, `-1 = Against`, `0 = Abstain`.  
-- `reason` (`string`).  
-- `weight` (`uint256`, optional).  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `proposal_id` (`uint256`): The proposal being voted on.
+- `voter` (`address`): Address casting the vote.
+- `choice` (`int8`): e.g. `1 = For`, `-1 = Against`, `0 = Abstain`.
+- `reason` (`string`): Optional reason for the vote.  
 
 ---
 
-### 3.6 `ADVANCED_VOTE`
+### 3.8 `ADVANCED_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a JSON-encoded choice payload.  
 **Revocable:** False.
 
-**Fields:**
-- `dao_uuid` (`bytes32`).  
-- `proposal_uuid` (`bytes32`).  
-- `voter` (`address`).  
-- `choice` (`string`): JSON payload relevant to the proposal type.  
-- `reason` (`string`).  
-- `weight` (`uint256`, optional).  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `proposal_id` (`uint256`): The proposal being voted on.
+- `voter` (`address`): Address casting the vote.
+- `choice` (`string`): JSON payload relevant to the proposal type.
+- `reason` (`string`): Optional reason for the vote.  
 
 ---
 
-### 3.7 `UNDO`
+### 3.9 `UNDO`
 
 **Issuer:** Anyone (unguarded), but interpreted only if issuer has `UNDO` permissions.  
 **Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.  
 **Revocable:** False.
 
-**Fields:**
-- `dao_uuid` (`bytes32`).  
-- `uid` (`bytes32`): UID of the attestation to undo.  
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `uid_of_attestation_to_undo` - The attestation to nullify
+
+**Schema Fields:**
+- `verb` (`string`): The action verb describing what's being undone.  
 
 ---
 

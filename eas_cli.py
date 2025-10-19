@@ -11,7 +11,7 @@ from typing import Dict
 from dotenv import load_dotenv
 import click
 
-from eth_abi import encode
+# from eth_abi import encode
 from eth_utils import keccak, to_checksum_address
 
 # Load .env file
@@ -21,19 +21,24 @@ SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0'}
 
 EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 
-# Schema definitions for each attestation type
+# Client Generates the dao_id -> could be collissions, 
+# but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
+# but then, people could pollute the attestation space. 
 SCHEMAS = {
-    "INSTANTIATE": "uint8 protocol_version,string name", # recipient = dao_id, refUID = 0x0
-    "GRANT": "address verb,string permission,uint8 level,string filter", # recipient = dao_id, refUID = 0x0
-    "CREATE_PROPOSAL_TYPE": "string class,string kwargs", # recipient = dao_id, refUID = 0x0
-    "CREATE_PROPOSAL": "bytes32 proposal_type_uuid,string title,string description,uint64 startts,uint64 endts", # recipient = dao_id, refUID = proposal_type_uid
-    "SIMPLE_VOTE": "address voter,int8 choice,string reason,uint256 weight", # recipient = dao_id, refUID = proposal_uid
-    "ADVANCED_VOTE": "address voter,string choice,string reason,uint256 weight", # recipient = dao_id, refUID = proposal_uid
-    "UNDO": "string verb" # recipient = dao_id, refUID = uid
+    "INSTANTIATE":          "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "PERMA_INSTANTIATE":    "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "GRANT":                "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "CREATE_PROPOSAL_TYPE": "string class,string kwargs",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
+    "CREATE_PROPOSAL":      "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags", 
+                                                                                             # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0
+    "SET_PROPOSAL_TYPE":    "uint256 proposal_id",                                           # recipient = address dao_id, bytes32 refUID = proposal_type_uid
+    "SIMPLE_VOTE":          "uint256 proposal_id,address voter,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "ADVANCED_VOTE":        "uint256 proposal_id,address voter,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "UNDO":                 "string verb"                                                    # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
 
 REVOCABILITY = {k : "true" for k in SCHEMAS.keys()}
-REVOCABILITY['INSTANTIATE'] = "false"
+REVOCABILITY['PERMA_INSTANTIATE'] = "false"
 REVOCABILITY['SIMPLE_VOTE'] = "false"
 REVOCABILITY['ADVANCED_VOTE'] = "false"
 REVOCABILITY['UNDO'] = "false"
@@ -190,9 +195,6 @@ def attest(dao_uuid: str, attestation_command: str, args: tuple):
     schema = SCHEMAS[attestation_command]
 
     dao_id = config['dao_id']
-
-    # Checksum the DAO address
-    dao_address = to_checksum_address(dao_uuid)
 
     schema_uid = get_schema_id(attestation_command)
     eas_contract = EAS_CONTRACTS[config["chain_id"]]
