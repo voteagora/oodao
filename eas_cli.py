@@ -25,17 +25,21 @@ EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
 # but then, people could pollute the attestation space. 
 SCHEMAS = {
-    "INSTANTIATE":          "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "PERMA_INSTANTIATE":    "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "GRANT":                "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "CREATE_PROPOSAL_TYPE": "string class,string kwargs",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
-    "CREATE_PROPOSAL":      "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags", 
+    "INSTANTIATE":              "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "PERMA_INSTANTIATE":        "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "GRANT":                    "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "CREATE_PROPOSAL_TYPE":     "string class,string kwargs",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
+    "CREATE_PROPOSAL":          "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags", 
                                                                                              # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0
-    "SET_PROPOSAL_TYPE":    "uint256 proposal_id",                                           # recipient = address dao_id, bytes32 refUID = proposal_type_uid
-    "SIMPLE_VOTE":          "uint256 proposal_id,address voter,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "ADVANCED_VOTE":        "uint256 proposal_id,address voter,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "UNDO":                 "string verb"                                                    # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
+    "SET_PROPOSAL_TYPE":        "uint256 proposal_id",                                           # recipient = address dao_id, bytes32 refUID = proposal_type_uid
+    "DELEGATED_SIMPLE_VOTE":    "uint256 proposal_id,address voter,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "DELEGATED_ADVANCED_VOTE":  "uint256 proposal_id,address voter,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "SIMPLE_VOTE":              "uint256 proposal_id,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "ADVANCED_VOTE":            "uint256 proposal_id,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "UNDO":                     "string verb"                                                    # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
+
+# Should we declare a set of chain-id->token-addresses at instantiation?
 
 REVOCABILITY = {k : "true" for k in SCHEMAS.keys()}
 REVOCABILITY['PERMA_INSTANTIATE'] = "false"
@@ -172,7 +176,7 @@ def normalize_bytes32(val: str) -> str:
 @cli.command()
 @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
 @click.argument("args", nargs=-1)
-def attest(dao_uuid: str, attestation_command: str, args: tuple):
+def attest(attestation_command: str, args: tuple):
     """Create an attestation with the given arguments.
 
     DAO_UUID: Address of the DAO (used as recipient)
