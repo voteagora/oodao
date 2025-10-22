@@ -70,9 +70,9 @@ contract DaoSchemasV020 {
     string public constant ADVANCED_VOTE_SCHEMA =
         "uint256 proposal_id,address voter,string choice,string reason";
 
-    // 10. UNDO
+    // 10. DELETE
     // recipient: dao_uuid (address)
     // refUID: uid_of_attestation_to_undo
-    string public constant UNDO_SCHEMA =
-        "string verb";
+    string public constant DELETE_SCHEMA =
+        "string verb,bytes32 schema_id";
 }

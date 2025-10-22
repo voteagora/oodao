@@ -79,8 +79,8 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 - `level` (`uint8`): Bitmask toggling available powers:
   - Bit 0 (`1`): CREATE
   - Bit 1 (`2`): REVOKE
-  - Bit 2 (`4`): UNDO
-  Example: `7` (binary `111`) grants create, revoke, and undo.
+  - Bit 2 (`4`): DELETE
+  Example: `7` (binary `111`) grants create, revoke, and delete.
 - `filter` (`string`): JSON string for further granularity (e.g., restrict `GRANT` to certain subsets).  
 
 ---
@@ -182,17 +182,18 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.10 `UNDO`
+### 3.10 `DELETE`
 
-**Issuer:** Anyone (unguarded), but interpreted only if issuer has `UNDO` permissions.  
-**Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.  
+**Issuer:** Anyone (unguarded), but interpreted only if issuer has `DELETE` permissions.
+**Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.
 **Revocable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
-**refUID:** `uid_of_attestation_to_undo` - The attestation to nullify
+**refUID:** `uid_of_attestation_to_delete` - The attestation to nullify
 
 **Schema Fields:**
-- `verb` (`string`): The action verb describing what's being undone.  
+- `verb` (`string`): The action verb describing what's being deleted.
+- `schema_id` (`bytes32`): The schema UID of the attestation being deleted.  
 
 ---
 
@@ -206,8 +207,8 @@ Attestations must be included in blocks with timestamps before the prevailing ti
 
 ## 5. Security Considerations
 
-- **Grant Validation**: Offchain services must verify that a grantor has valid authority before interpreting a `GRANT`.  
-- **Undo Semantics**: `UNDO` retroactively invalidates attestations; downstream consumers must handle cascading effects.  
+- **Grant Validation**: Offchain services must verify that a grantor has valid authority before interpreting a `GRANT`.
+- **Delete Semantics**: `DELETE` retroactively invalidates attestations; downstream consumers must handle cascading effects.
 - **Custom Resolvers**: Optional resolvers can enforce invariants (e.g., valid proposal class, timestamp order) onchain.  
 
 ---
@@ -227,6 +228,6 @@ Attestations must be included in blocks with timestamps before the prevailing ti
    - Members vote (`SIMPLE_VOTE` or `ADVANCED_VOTE`).  
    - Results tallied offchain (or onchain with resolver logic).  
 
-4. **Undo**  
-   - If a proposal was created fraudulently, an authorized actor can issue `UNDO` on its UID.  
+4. **Delete**
+   - If a proposal was created fraudulently, an authorized actor can issue `DELETE` on its UID.  
 

@@ -37,7 +37,7 @@ SCHEMAS = {
     "DELEGATED_ADVANCED_VOTE":  "uint256 proposal_id,address voter,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
     "SIMPLE_VOTE":              "uint256 proposal_id,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
     "ADVANCED_VOTE":            "uint256 proposal_id,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "UNDO":                     "string verb"                                                    # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
+    "DELETE":                   "string verb,bytes32 schema_id"                                 # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
 
 # Should we declare a set of chain-id->token-addresses at instantiation?
@@ -48,7 +48,7 @@ REVOCABILITY['DELEGATED_SIMPLE_VOTE'] = "false"
 REVOCABILITY['DELEGATED_ADVANCED_VOTE'] = "false"
 REVOCABILITY['SIMPLE_VOTE'] = "false"
 REVOCABILITY['ADVANCED_VOTE'] = "false"
-REVOCABILITY['UNDO'] = "false"
+REVOCABILITY['DELETE'] = "false"
 REVOCABILITY['SET_PARAM_VALUE'] = "false"
 
 def get_env_config() -> Dict[str, str]:
