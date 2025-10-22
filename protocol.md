@@ -133,7 +133,22 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.7 `SIMPLE_VOTE`
+### 3.7 `SET_PARAM_VALUE`
+
+**Issuer:** Anyone (unguarded), but valid only if the issuer has appropriate permissions.
+**Purpose:** Set or update a named parameter value for the DAO.
+**Revocable:** False.
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `param_name` (`string`): The name of the parameter to set.
+- `param_value` (`uint256`): The numeric value to assign to the parameter.
+
+---
+
+### 3.8 `SIMPLE_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a simple numeric choice.  
@@ -150,7 +165,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.8 `ADVANCED_VOTE`
+### 3.9 `ADVANCED_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a JSON-encoded choice payload.  
@@ -167,7 +182,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.9 `UNDO`
+### 3.10 `UNDO`
 
 **Issuer:** Anyone (unguarded), but interpreted only if issuer has `UNDO` permissions.  
 **Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.  

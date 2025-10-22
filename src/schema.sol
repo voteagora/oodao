@@ -50,19 +50,27 @@ contract DaoSchemasV020 {
     string public constant SET_PROPOSAL_TYPE_SCHEMA =
         "uint256 proposal_id";
 
-    // 7. SIMPLE_VOTE
+    // 7. SET_PARAM_VALUE
+    // recipient: dao_uuid (address)
+    // refUID: 0x0 (discarded, returns bytes32 attestation UID)
+    // - param_name: name of the parameter to set
+    // - param_value: uint256 value for the parameter
+    string public constant SET_PARAM_VALUE_SCHEMA =
+        "string param_name,uint256 param_value";
+
+    // 8. SIMPLE_VOTE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant SIMPLE_VOTE_SCHEMA =
         "uint256 proposal_id,address voter,int8 choice,string reason";
 
-    // 8. ADVANCED_VOTE
+    // 9. ADVANCED_VOTE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant ADVANCED_VOTE_SCHEMA =
         "uint256 proposal_id,address voter,string choice,string reason";
 
-    // 9. UNDO
+    // 10. UNDO
     // recipient: dao_uuid (address)
     // refUID: uid_of_attestation_to_undo
     string public constant UNDO_SCHEMA =
