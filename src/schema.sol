@@ -33,10 +33,13 @@ contract DaoSchemasV020 {
     // 4. CREATE_PROPOSAL_TYPE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (returns bytes32 proposal_type_uid)
-    // - class: must be "standard", "approval", "optimistic"
-    // - kwargs: JSON with type-specific parameters
+    // - quorum: minimum number of votes required
+    // - approval_threshold: percentage required for approval (e.g., 50 for 50%)
+    // - name: human-readable name for this proposal type
+    // - description: description of this proposal type
+    // - class: must be "STANDARD", "APPROVAL", or "OPTIMISTIC"
     string public constant CREATE_PROPOSAL_TYPE_SCHEMA =
-        "string class,string kwargs";
+        "uint32 quorum,uint32 approval_threshold,string name,string description,string class";
 
     // 5. CREATE_PROPOSAL
     // recipient: dao_uuid (address)

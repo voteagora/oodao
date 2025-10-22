@@ -87,16 +87,19 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.4 `CREATE_PROPOSAL_TYPE`
 
-**Issuer:** Anyone (unguarded), ignored if permissions aren’t set.  
-**Purpose:** Define proposal classes for the DAO.  
+**Issuer:** Anyone (unguarded), ignored if permissions aren't set.
+**Purpose:** Define proposal classes for the DAO.
 **Revokable:** True.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
 **refUID:** `0x0` (returns `bytes32` proposal_type_uid)
 
 **Schema Fields:**
-- `class` (`string`): Proposal class. Supported values: `"standard"`, `"approval"`, `"optimistic"`.
-- `kwargs` (`string`): JSON payload of keyword arguments used when creating proposals.  
+- `quorum` (`uint32`): Minimum number of votes required for the proposal to be valid.
+- `approval_threshold` (`uint32`): Percentage required for approval (e.g., 50 for 50%).
+- `name` (`string`): Human-readable name for this proposal type.
+- `description` (`string`): Description of this proposal type and its purpose.
+- `class` (`string`): Proposal class. Supported values: `"STANDARD"`, `"APPROVAL"`, `"OPTIMISTIC"`.  
 
 ---
 
