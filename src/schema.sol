@@ -12,7 +12,7 @@ contract DaoSchemasV020 {
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant INSTANTIATE_SCHEMA =
-        "uint8 protocol_version,string name";
+        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay";
 
     // 2. PERMA_INSTANTIATE
     // recipient: dao_uuid (address)

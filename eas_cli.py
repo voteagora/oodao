@@ -25,7 +25,7 @@ EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
 # but then, people could pollute the attestation space. 
 SCHEMAS = {
-    "INSTANTIATE":              "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "INSTANTIATE":              "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "PERMA_INSTANTIATE":        "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "GRANT":                    "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "CREATE_PROPOSAL_TYPE":     "string class,string kwargs",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid

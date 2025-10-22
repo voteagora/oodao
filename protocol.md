@@ -32,8 +32,8 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.1 `INSTANTIATE`
 
-**Issuer:** A recognized platform (e.g. Agora).  
-**Purpose:** Declare the DAO and assign its initial authority.  
+**Issuer:** A recognized platform (e.g. Agora).
+**Purpose:** Declare the DAO and assign its initial authority.
 **Revokable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Unique identifier for this DAO.  The client is expected to instantiate this, and avoid collissions.
@@ -41,7 +41,9 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Schema Fields:**
 - `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
-- `name` (`string`): Human-readable name of the DAO.  
+- `name` (`string`): Human-readable name of the DAO.
+- `voting_period` (`uint32`): Default voting period duration in seconds.
+- `voting_delay` (`uint32`): Default delay before voting begins in seconds.  
 
 ---
 
