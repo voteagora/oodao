@@ -59,6 +59,8 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **Schema Fields:**
 - `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
 - `name` (`string`): Human-readable name of the DAO.
+- `voting_period` (`uint32`): Default voting period duration in seconds.
+- `voting_delay` (`uint32`): Default delay before voting begins in seconds.
 
 ---
 

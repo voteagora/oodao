@@ -26,7 +26,7 @@ EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 # but then, people could pollute the attestation space. 
 SCHEMAS = {
     "INSTANTIATE":              "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "PERMA_INSTANTIATE":        "uint8 protocol_version,string name",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "PERMA_INSTANTIATE":        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "GRANT":                    "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "CREATE_PROPOSAL_TYPE":     "string class,string kwargs",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
     "CREATE_PROPOSAL":          "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags", 
