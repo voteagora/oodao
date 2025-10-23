@@ -25,19 +25,18 @@ EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
 # but then, people could pollute the attestation space. 
 SCHEMAS = {
-    "INSTANTIATE":              "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "PERMA_INSTANTIATE":        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                            # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "GRANT":                    "address verb,string permission,uint8 level,string filter",      # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
-    "CREATE_PROPOSAL_TYPE":     "uint32 quorum,uint32 approval_threshold,string name,string description,string class",                                    # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
-    "CREATE_PROPOSAL":          "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags", 
-                                                                                             # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0
-    "SET_PROPOSAL_TYPE":        "uint256 proposal_id",                                           # recipient = address dao_id, bytes32 refUID = proposal_type_uid
-    "SET_PARAM_VALUE":          "string param_name,uint256 param_value",                        # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "DELEGATED_SIMPLE_VOTE":    "uint256 proposal_id,address voter,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "DELEGATED_ADVANCED_VOTE":  "uint256 proposal_id,address voter,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "SIMPLE_VOTE":              "uint256 proposal_id,int8 choice,string reason",   # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "ADVANCED_VOTE":            "uint256 proposal_id,string choice,string reason", # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "DELETE":                   "string verb,bytes32 schema_id"                                 # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
+    "INSTANTIATE":              "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "PERMA_INSTANTIATE":        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "GRANT":                    "address verb,string permission,uint8 level,string filter",                                   # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
+    "CREATE_PROPOSAL_TYPE":     "uint32 quorum,uint32 approval_threshold,string name,string description,string class",        # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
+    "CREATE_PROPOSAL":          "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags",# recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0
+    "SET_PROPOSAL_TYPE":        "uint256 proposal_id",                                                                        # recipient = address dao_id, bytes32 refUID = proposal_type_uid
+    "SET_PARAM_VALUE":          "string param_name,uint256 param_value",                                                      # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "DELEGATED_SIMPLE_VOTE":    "uint256 proposal_id,address voter,int8 choice,string reason",                                # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "DELEGATED_ADVANCED_VOTE":  "uint256 proposal_id,address voter,string choice,string reason",                              # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "SIMPLE_VOTE":              "uint256 proposal_id,int8 choice,string reason",                                              # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "ADVANCED_VOTE":            "uint256 proposal_id,string choice,string reason",                                            # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "DELETE":                   "string verb,bytes32 schema_id"                                                               # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
 
 # Should we declare a set of chain-id->token-addresses at instantiation?
@@ -50,6 +49,9 @@ REVOCABILITY['SIMPLE_VOTE'] = "false"
 REVOCABILITY['ADVANCED_VOTE'] = "false"
 REVOCABILITY['DELETE'] = "false"
 REVOCABILITY['SET_PARAM_VALUE'] = "false"
+
+OPTIONAL_REFUID = ['CREATE_PROPOSAL']
+REQUIRES_REFUID = ['SET_PROPOSAL_TYPE', 'DELETE']
 
 def get_env_config() -> Dict[str, str]:
     """Load configuration from .env file."""
@@ -263,7 +265,35 @@ def attest(attestation_command: str, args: tuple):
     # Parse schema fields (types only)
     schema_fields = [f.strip().split()[0] for f in schema.split(",")]
 
-    if len(args) != len(schema_fields):
+    REFUID_LEN = len("0x0000000000000000000000000000000000000000000000000000000000000000")
+
+    check = False
+
+    if attestation_command in OPTIONAL_REFUID:
+
+        if len(args) == len(schema_fields):
+            check = True
+            refuid = "0x0000000000000000000000000000000000000000000000000000000000000000" 
+        elif (len(args) == len(schema_fields)) + 1:
+            check = True
+            refuid = args[-1]
+            args = args[:-1]
+            assert len(refuid) == REFUID_LEN
+
+    elif attestation_command in REQUIRES_REFUID:
+
+        if (len(args) == len(schema_fields)) + 1:
+            check = True
+            refuid = args[-1]
+            args = args[:-1]
+            assert len(refuid) == REFUID_LEN
+
+    else:
+        if len(args) == len(schema_fields):
+            check = True
+            refuid = "0x0000000000000000000000000000000000000000000000000000000000000000" 
+
+    if not check:
         click.echo(f"Error: Expected {len(schema_fields)} arguments for {attestation_command}", err=True)
         click.echo(f"Schema fields: {schema}", err=True)
         click.echo(f"Received {len(args)} arguments", err=True)
@@ -293,7 +323,7 @@ def attest(attestation_command: str, args: tuple):
         f"{dao_id}," +                                 # recipient
         "0," +                                         # expirationTime
         revocable +"," +                               # revocable
-        "0x0000000000000000000000000000000000000000000000000000000000000000," +  # refUID
+        f"{refuid}," +  # refUID
         f"{encoded_bytes}," +                          # data
         "0" +                                          # value
         ")"
