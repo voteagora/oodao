@@ -17,6 +17,27 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 # Eth Sepolia Votes Resolver Proxy:
 0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6
 
+# Entities Implementation (This worked)
+forge verify-contract \
+  --chain sepolia \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0xf791667e810a210c6e56f45e79363b71978e6824 \
+  resolvers/EntitiesResolver.sol:EntitiesResolver
+
+# Entities Proxy? (not working yet)
+forge verify-contract \
+  --chain sepolia \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
+  lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
+
+
+forge verify-contract \
+  --chain sepolia \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6 \
+  resolvers/VotesResolver.sol:VotesResolver
+
 
 ### Schema Hashes
 
