@@ -32,8 +32,8 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.1 `INSTANTIATE`
 
-**Issuer:** A recognized platform (e.g. Agora).  
-**Purpose:** Declare the DAO and assign its initial authority.  
+**Issuer:** A recognized platform (e.g. Agora).
+**Purpose:** Declare the DAO and assign its initial authority.
 **Revokable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Unique identifier for this DAO.  The client is expected to instantiate this, and avoid collissions.
@@ -41,7 +41,9 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 **Schema Fields:**
 - `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
-- `name` (`string`): Human-readable name of the DAO.  
+- `name` (`string`): Human-readable name of the DAO.
+- `voting_period` (`uint32`): Default voting period duration in seconds.
+- `voting_delay` (`uint32`): Default delay before voting begins in seconds.  
 
 ---
 
@@ -57,6 +59,8 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **Schema Fields:**
 - `protocol_version` (`uint8`): Version of the protocol spec (for forwards compatibility).
 - `name` (`string`): Human-readable name of the DAO.
+- `voting_period` (`uint32`): Default voting period duration in seconds.
+- `voting_delay` (`uint32`): Default delay before voting begins in seconds.
 
 ---
 
@@ -75,24 +79,27 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 - `level` (`uint8`): Bitmask toggling available powers:
   - Bit 0 (`1`): CREATE
   - Bit 1 (`2`): REVOKE
-  - Bit 2 (`4`): UNDO
-  Example: `7` (binary `111`) grants create, revoke, and undo.
+  - Bit 2 (`4`): DELETE
+  Example: `7` (binary `111`) grants create, revoke, and delete.
 - `filter` (`string`): JSON string for further granularity (e.g., restrict `GRANT` to certain subsets).  
 
 ---
 
 ### 3.4 `CREATE_PROPOSAL_TYPE`
 
-**Issuer:** Anyone (unguarded), ignored if permissions aren’t set.  
-**Purpose:** Define proposal classes for the DAO.  
+**Issuer:** Anyone (unguarded), ignored if permissions aren't set.
+**Purpose:** Define proposal classes for the DAO.
 **Revokable:** True.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
 **refUID:** `0x0` (returns `bytes32` proposal_type_uid)
 
 **Schema Fields:**
-- `class` (`string`): Proposal class. Supported values: `"standard"`, `"approval"`, `"optimistic"`.
-- `kwargs` (`string`): JSON payload of keyword arguments used when creating proposals.  
+- `quorum` (`uint32`): Minimum number of votes required for the proposal to be valid.
+- `approval_threshold` (`uint32`): Percentage required for approval (e.g., 50 for 50%).
+- `name` (`string`): Human-readable name for this proposal type.
+- `description` (`string`): Description of this proposal type and its purpose.
+- `class` (`string`): Proposal class. Supported values: `"STANDARD"`, `"APPROVAL"`, `"OPTIMISTIC"`.  
 
 ---
 
@@ -129,7 +136,22 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.7 `SIMPLE_VOTE`
+### 3.7 `SET_PARAM_VALUE`
+
+**Issuer:** Anyone (unguarded), but valid only if the issuer has appropriate permissions.
+**Purpose:** Set or update a named parameter value for the DAO.
+**Revocable:** False.
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+
+**Schema Fields:**
+- `param_name` (`string`): The name of the parameter to set.
+- `param_value` (`uint256`): The numeric value to assign to the parameter.
+
+---
+
+### 3.8 `SIMPLE_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a simple numeric choice.  
@@ -146,7 +168,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.8 `ADVANCED_VOTE`
+### 3.9 `ADVANCED_VOTE`
 
 **Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
 **Purpose:** Record a vote with a JSON-encoded choice payload.  
@@ -163,17 +185,18 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
-### 3.9 `UNDO`
+### 3.10 `DELETE`
 
-**Issuer:** Anyone (unguarded), but interpreted only if issuer has `UNDO` permissions.  
-**Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.  
+**Issuer:** Anyone (unguarded), but interpreted only if issuer has `DELETE` permissions.
+**Purpose:** Retroactively nullify an attestation as if it never occurred. Different from revoke, which applies prospectively.
 **Revocable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
-**refUID:** `uid_of_attestation_to_undo` - The attestation to nullify
+**refUID:** `uid_of_attestation_to_delete` - The attestation to nullify
 
 **Schema Fields:**
-- `verb` (`string`): The action verb describing what's being undone.  
+- `verb` (`string`): The action verb describing what's being deleted.
+- `schema_id` (`bytes32`): The schema UID of the attestation being deleted.  
 
 ---
 
@@ -187,8 +210,8 @@ Attestations must be included in blocks with timestamps before the prevailing ti
 
 ## 5. Security Considerations
 
-- **Grant Validation**: Offchain services must verify that a grantor has valid authority before interpreting a `GRANT`.  
-- **Undo Semantics**: `UNDO` retroactively invalidates attestations; downstream consumers must handle cascading effects.  
+- **Grant Validation**: Offchain services must verify that a grantor has valid authority before interpreting a `GRANT`.
+- **Delete Semantics**: `DELETE` retroactively invalidates attestations; downstream consumers must handle cascading effects.
 - **Custom Resolvers**: Optional resolvers can enforce invariants (e.g., valid proposal class, timestamp order) onchain.  
 
 ---
@@ -208,6 +231,6 @@ Attestations must be included in blocks with timestamps before the prevailing ti
    - Members vote (`SIMPLE_VOTE` or `ADVANCED_VOTE`).  
    - Results tallied offchain (or onchain with resolver logic).  
 
-4. **Undo**  
-   - If a proposal was created fraudulently, an authorized actor can issue `UNDO` on its UID.  
+4. **Delete**
+   - If a proposal was created fraudulently, an authorized actor can issue `DELETE` on its UID.  
 

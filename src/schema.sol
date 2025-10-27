@@ -12,13 +12,13 @@ contract DaoSchemasV020 {
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant INSTANTIATE_SCHEMA =
-        "uint8 protocol_version,string name";
+        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay";
 
     // 2. PERMA_INSTANTIATE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant PERMA_INSTANTIATE_SCHEMA =
-        "uint8 protocol_version,string name";
+        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay";
 
     // 3. GRANT
     // recipient: dao_uuid (address)
@@ -33,10 +33,13 @@ contract DaoSchemasV020 {
     // 4. CREATE_PROPOSAL_TYPE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (returns bytes32 proposal_type_uid)
-    // - class: must be "standard", "approval", "optimistic"
-    // - kwargs: JSON with type-specific parameters
+    // - quorum: minimum number of votes required
+    // - approval_threshold: percentage required for approval (e.g., 50 for 50%)
+    // - name: human-readable name for this proposal type
+    // - description: description of this proposal type
+    // - class: must be "STANDARD", "APPROVAL", or "OPTIMISTIC"
     string public constant CREATE_PROPOSAL_TYPE_SCHEMA =
-        "string class,string kwargs";
+        "uint32 quorum,uint32 approval_threshold,string name,string description,string class";
 
     // 5. CREATE_PROPOSAL
     // recipient: dao_uuid (address)
@@ -50,21 +53,29 @@ contract DaoSchemasV020 {
     string public constant SET_PROPOSAL_TYPE_SCHEMA =
         "uint256 proposal_id";
 
-    // 7. SIMPLE_VOTE
+    // 7. SET_PARAM_VALUE
+    // recipient: dao_uuid (address)
+    // refUID: 0x0 (discarded, returns bytes32 attestation UID)
+    // - param_name: name of the parameter to set
+    // - param_value: uint256 value for the parameter
+    string public constant SET_PARAM_VALUE_SCHEMA =
+        "string param_name,uint256 param_value";
+
+    // 8. SIMPLE_VOTE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant SIMPLE_VOTE_SCHEMA =
         "uint256 proposal_id,address voter,int8 choice,string reason";
 
-    // 8. ADVANCED_VOTE
+    // 9. ADVANCED_VOTE
     // recipient: dao_uuid (address)
     // refUID: 0x0 (discarded, returns bytes32 attestation UID)
     string public constant ADVANCED_VOTE_SCHEMA =
         "uint256 proposal_id,address voter,string choice,string reason";
 
-    // 9. UNDO
+    // 10. DELETE
     // recipient: dao_uuid (address)
     // refUID: uid_of_attestation_to_undo
-    string public constant UNDO_SCHEMA =
-        "string verb";
+    string public constant DELETE_SCHEMA =
+        "string verb,bytes32 schema_id";
 }
