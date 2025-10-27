@@ -19,17 +19,10 @@ contract VotesResolver is UpgradableSchemaResolver {
         bytes refData
     );
 
-    bytes32 public VOTER_SCHEMA_UID;
-
     mapping(uint256 => mapping(address => bool)) internal _proposalVotes;
 
-    function initialize(
-        IEAS eas,
-        address _owner,
-        bytes32 _voterSchemaUID
-    ) public initializer {
+    function initialize(IEAS eas, address _owner) public initializer {
         UpgradableSchemaResolver.initialize(eas, _owner);
-        VOTER_SCHEMA_UID = _voterSchemaUID;
     }
 
     function onAttest(
