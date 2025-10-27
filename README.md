@@ -9,20 +9,27 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 ## Deployments
 
 # Eth Mainnet Entity Resolver Proxy:
-0x1a5628af2c02b9513722cc22ff606724c67ecb76
+-
 
 # Eth Sepolia Entity Resolver Proxy:
-0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4
+0x0292b0ce4f6791ee6d91befbc9f16aed463d1412
 
 # Eth Sepolia Votes Resolver Proxy:
-0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6
+0x990885ca636aaba3513e82d4e74b82b1f76bbb04
 
-# Entities Implementation (This worked)
+# Entities Implementation
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0xf791667e810a210c6e56f45e79363b71978e6824 \
+  0x198c4171b7de6e1ea1b752896ad1555ad04b68f1 \
   resolvers/EntitiesResolver.sol:EntitiesResolver
+
+# Votes Implementation
+forge verify-contract \
+  --chain sepolia \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0xa3de35c6e91c9226b3e283782b9d16396112a506 \
+  resolvers/VotesResolver.sol:VotesResolver
 
 # Entities Proxy? (not working yet)
 forge verify-contract \
@@ -32,30 +39,25 @@ forge verify-contract \
   lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
 
 
-forge verify-contract \
-  --chain sepolia \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x7e1b079dba7ddfd19f3aaa8c41418a9a6b2b68cf \
-  resolvers/VotesResolver.sol:VotesResolver
-
 
 ### Schema Hashes
 
 #### Sepolia Deployment
 
 ```
-INSTANTIATE : 0x6bd280a85f895b15798d2b8e524a651e034f42b3ce614cb394c9d5e2ae2b10c7
-PERMA_INSTANTIATE : 0x01a6e34a0b986043b892902536c69a24f37fcfdaea39fbd2216dedbc6d53d83f
-GRANT : 0x7e4752a595f69560a5759e1acc1c70995758b45f00972374de9e1b801d19b758
-CREATE_PROPOSAL_TYPE : 0x880613f78650605d0a0617ec006b8181de80f688a12da6e78f1a8bf3d6b4f922
+INSTANTIATE : 0x572f7d8834633948ea8827c710d08bbe9d80b87e8d7192185acb43b2af706dff
+PERMA_INSTANTIATE : 0x25566ed7860fc90849725cbd7b90e618a291685e9cb0d0b40d51bcf08538eec5
+GRANT : 0x3d3490aa99eca912f5ae133f02495e592c01e257e0a49f023fd9df6197dfc4ca
+CREATE_PROPOSAL_TYPE : 0xafc8d20711ca74a92a5c0ed26d7ca7796d2c78e20a17b76389f24c4dfbba54e5
 CREATE_PROPOSAL : 0x442d586d8424b5485de1ff46cb235dcb96b41d19834926bbad1cd157fbeeb8fc
-SET_PROPOSAL_TYPE : 0x4468df37e17deb20b5096fb12107d4841b79ff6a62292e798eb7b79d0e764eb5
-SET_PARAM_VALUE : 0x7ac5f4a1c2c47e910132a546af770c1a6ff0c02e931020de6f955cf42eae9a6b
-DELEGATED_SIMPLE_VOTE : 0x02abd103bdbf55c2b4fa82ea2078b8b6c4d5abdaa3191306820e85b9913b434d
-DELEGATED_ADVANCED_VOTE : 0x22eb0623ff9b3caf2e4448f7b08a87459c14fbc33a53f4d77eb532bb2cf74ae0
-SIMPLE_VOTE : 0xa68afde70897d2955e726c1a1da9e77ab466994b5da6666ceb518a5c538edc1e
-ADVANCED_VOTE : 0x22e4a4e20f724e4162a553d076493d05d3edaff561c2708f67f4a23067074413
-DELETE : 0x42793d748cbdd8d815556d7bbeacae5e82cbce605ea048474e7e60a02577cf49
+CHECK_PROPOSAL : 0xf022af215cd4eabc4bf1773d04fdec714f47097d9dc7a037eb01f23bdfaa5533
+SET_PROPOSAL_TYPE : 0x2e0208e92ffe9439d6ce12fbd9928ad8f6d79b652068bd3cf6032ef64dba12fa
+SET_PARAM_VALUE : 0x860fbb1b78677152aaea5cf8855866c268fde8c0d814c10f2a55d73d6562269c
+DELEGATED_SIMPLE_VOTE : 0xde80f2c4e6168c2f68c1b466087ffba7994c2b7ff8f4113689c75ee82ef59c61
+DELEGATED_ADVANCED_VOTE : 0x4aa210b34a3b488c54f7ec482763c5ec8a52be5669c24216d3814b009076fb50
+SIMPLE_VOTE : 0x2b0e624e00310c7e88a1b7840238e285152b38ab00160b14c0d4e54e0a53a3aa
+ADVANCED_VOTE : 0xa7497737b4bdc0eaf60e90a290602216fb2a0e8c886e50bad63324ca8b76a587
+DELETE : 0x28b4a65500ba66b7328de552b9e5cf7f2211143e141a4c8cf915ba894d8e81a8
 ```
 
 ```

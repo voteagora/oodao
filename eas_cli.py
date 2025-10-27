@@ -91,8 +91,8 @@ def get_deployment_config(chain_id):
         entity_resolver = ...
     elif chain_id == 11155111:
         rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
-        votes_resolver = '0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6'
-        entity_resolver = '0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4'
+        votes_resolver = '0x990885ca636aaba3513e82d4e74b82b1f76bbb04'
+        entity_resolver = '0x0292b0ce4f6791ee6d91befbc9f16aed463d1412'
     elif chain_id == 10:
         rpc_url = 'https://optimism-rpc.publicnode.com'
         votes_resolver = ...
@@ -189,8 +189,11 @@ def deploy(attestation_command: str, chain_id: int):
 @click.argument("chainid")
 def deployall(chainid:int):
     for i, schema in enumerate(SCHEMAS.keys()):
-        if i >= 4:
+        print(i, schema)
+        try:
             deploy(schema, int(chainid))
+        except:
+            print(f"Failed to deploy schema: {schema}")
 
 def get_schema_id(attestation_command: str, chainid: int):
 
