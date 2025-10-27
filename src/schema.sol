@@ -78,4 +78,10 @@ contract DaoSchemasV020 {
     // refUID: uid_of_attestation_to_undo
     string public constant DELETE_SCHEMA =
         "string verb,bytes32 schema_id";
+
+    // 10. CHECK_PROPOSAL
+    // recipient: dao_uuid (address)
+    // refUID: proposal_id
+    string public constant CHECK_PROPOSAL =
+        "string[] passed,string[] failed";
 }

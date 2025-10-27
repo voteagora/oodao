@@ -35,7 +35,7 @@ forge verify-contract \
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6 \
+  0x7e1b079dba7ddfd19f3aaa8c41418a9a6b2b68cf \
   resolvers/VotesResolver.sol:VotesResolver
 
 
