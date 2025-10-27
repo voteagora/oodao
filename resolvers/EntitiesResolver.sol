@@ -40,7 +40,7 @@ contract EntitiesResolver is UpgradableSchemaResolver {
         Attestation calldata attestation,
         uint256 /*value*/
     ) internal override returns (bool) {
-        if (!attesters[msg.sender]) {
+        if (!attesters[attestation.attester]) {
             revert InvalidAttester();
         }
 
