@@ -14,39 +14,44 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 # Eth Sepolia Entity Resolver Proxy:
 0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4
 
-
+# Eth Sepolia Votes Resolver Proxy:
+0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6
 
 
 ### Schema Hashes
 
+#### Sepolia Deployment
+
+```
+INSTANTIATE : 0x6bd280a85f895b15798d2b8e524a651e034f42b3ce614cb394c9d5e2ae2b10c7
+PERMA_INSTANTIATE : 0x01a6e34a0b986043b892902536c69a24f37fcfdaea39fbd2216dedbc6d53d83f
+GRANT : 0x7e4752a595f69560a5759e1acc1c70995758b45f00972374de9e1b801d19b758
+CREATE_PROPOSAL_TYPE : 0x880613f78650605d0a0617ec006b8181de80f688a12da6e78f1a8bf3d6b4f922
+CREATE_PROPOSAL : 0x442d586d8424b5485de1ff46cb235dcb96b41d19834926bbad1cd157fbeeb8fc
+SET_PROPOSAL_TYPE : 0x4468df37e17deb20b5096fb12107d4841b79ff6a62292e798eb7b79d0e764eb5
+SET_PARAM_VALUE : 0x7ac5f4a1c2c47e910132a546af770c1a6ff0c02e931020de6f955cf42eae9a6b
+DELEGATED_SIMPLE_VOTE : 0x02abd103bdbf55c2b4fa82ea2078b8b6c4d5abdaa3191306820e85b9913b434d
+DELEGATED_ADVANCED_VOTE : 0x22eb0623ff9b3caf2e4448f7b08a87459c14fbc33a53f4d77eb532bb2cf74ae0
+SIMPLE_VOTE : 0xa68afde70897d2955e726c1a1da9e77ab466994b5da6666ceb518a5c538edc1e
+ADVANCED_VOTE : 0x22e4a4e20f724e4162a553d076493d05d3edaff561c2708f67f4a23067074413
+DELETE : 0x42793d748cbdd8d815556d7bbeacae5e82cbce605ea048474e7e60a02577cf49
 ```
 
-Option A - Add Resolver & Sponsor for Admin
-Option B - Add SQL Filters everywhere <- ready to 
-
-X - INSTANTIATE : 0x8ba7508bd53801fb932a73f12e2b4f78026bcf88d4e1c7a098ced7c0612ed211
-X - PERMA_INSTANTIATE : 0xaeff4a05b483128622bca8fc08c8b46fcf45a2402c86d050c627596492447913
-# NOT USED - GRANT : 0x860ae1305cdafc30118cdf9b3aaece03c686e7498d77f00a7af3f466b88a3bd2
-X - CREATE_PROPOSAL_TYPE : 0x871d1c0e6b56a5eb8f285ae486db690205255c9152a2f6feb0c16bac1e7fe863
-O - CREATE_PROPOSAL : 0x12e8600c9bb57b5b436fa09735cfc63e95098552122001c465b610261eea8a93
-X - CHECKED_PROPOSAL : TODO - Make this, before our first spammer OR before the rules change
-X - SET_PROPOSAL_TYPE : 0xc218b18af140c97644087c59e8ab35b981e73e026ffaf318f371c4ddc56efcb9
-X - SET_PARAM_VALUE : 0x654f697d66f87c1ee3f72a28e1383463418a9b8b8d54863b304acd558e98c675
-V - DELEGATED_SIMPLE_VOTE : 0xffcc8fe77f55448bee5f0e24844ee76f83c3c2718dcf8a75de750cf4797ad0bc
-V - DELEGATED_ADVANCED_VOTE : 0x16c4ffdf71c55b73e4ebf099baf78b97376020f6ba9ede5b618900bcb9101e0b
-V - SIMPLE_VOTE : 0x04cb5678af613212e584cf8d117ee3fcd038a9ab657ecf0c596cabe1e6ebd9f0
-V - ADVANCED_VOTE : 0x724c8d6579c5098a5d3c44717a5b5a8ea9e7064078ff8ca7d3de3f4ad5097627
-X - DELETE : 0xf691b5231d1f526f9fb59610734a7f4bf91d0330e6d559fd821d69adbda0fc8b
 ```
-
-Next Steps:
-- Jeff to remove proposal_id from all attestations, switch for prop's ref_id
-- Pedro to check in resolvers, make it list of admins, into OODAO repo
-- Jeff to deploy resolvers to sepolia and mainnet
-- Jeff to update attestations (to reference correct resolver)
-- Jeff to deploy attestations to both seplia and mainnet
-- Jeff to instantiate syndicate DAO on sepolia
-- Jeff to instantiate syndicate DAO on mainnet
+X - INSTANTIATE
+X - PERMA_INSTANTIATE
+X - GRANT
+X - CREATE_PROPOSAL_TYPE
+O - CREATE_PROPOSAL
+X - CHECKED_PROPOSAL
+X - SET_PROPOSAL_TYPE
+X - SET_PARAM_VALUE
+V - DELEGATED_SIMPLE_VOTE
+V - DELEGATED_ADVANCED_VOTE
+V - SIMPLE_VOTE
+V - ADVANCED_VOTE
+X - DELETE
+```
 
 ## Installation
 

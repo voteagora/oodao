@@ -39,6 +39,13 @@ SCHEMAS = {
     "DELETE":                   "string verb,bytes32 schema_id"                                                               # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
 
+RESOLVER = {schema : "entity_resolver" for schema in SCHEMAS.keys()}
+RESOLVER['DELEGATED_SIMPLE_VOTE'] = 'votes_resolver'
+RESOLVER['DELEGATED_ADVANCED_VOTE'] = 'votes_resolver'
+RESOLVER['SIMPLE_VOTE'] = 'votes_resolver'
+RESOLVER['ADVANCED_VOTE'] = 'votes_resolver'
+RESOLVER['CREATE_PROPOSAL'] = None
+
 # Should we declare a set of chain-id->token-addresses at instantiation?
 
 REVOCABILITY = {k : "true" for k in SCHEMAS.keys()}
@@ -56,8 +63,8 @@ REQUIRES_REFUID = ['SET_PROPOSAL_TYPE', 'DELETE']
 def get_env_config() -> Dict[str, str]:
     """Load configuration from .env file."""
     chain_id = os.getenv("CHAIN_ID")
-    rpc_url = os.getenv("RPC_URL")
     forge_account = os.getenv("FORGE_ACCOUNT")
+    rpc_url = os.getenv("RPC_URL")
     dao_id = os.getenv("DAO_ID")
 
     dao_id = to_checksum_address(dao_id)    
@@ -73,6 +80,34 @@ def get_env_config() -> Dict[str, str]:
         "forge_account": forge_account,
         "dao_id": dao_id
     }
+
+def get_deployment_config(chain_id):
+
+    if chain_id == 1:
+        rpc_url = 'https://eth.llamarpc.com'
+        votes_resolver = ...
+        entity_resolver = ...
+    elif chain_id == 11155111:
+        rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
+        votes_resolver = '0x0a62f744f780ead70a67afd62bdb2171b9cfa0f6'
+        entity_resolver = '0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4'
+    elif chain_id == 10:
+        rpc_url = 'https://optimism-rpc.publicnode.com'
+        votes_resolver = ...
+        entity_resolver = ...
+    elif chain_id == 11155420:
+        rpc_url = 'https://sepolia.optimism.io'
+        votes_resolver = ...
+        entity_resolver = ...
+    else:
+        raise Exception(f"Chain ID unsupported: {chain_id}")
+
+
+    return {
+        "rpc_url": rpc_url,
+        "votes_resolver": votes_resolver,
+        "entity_resolver": entity_resolver
+    }  
 
 
 def run_ext_command(binary, args: list) -> subprocess.CompletedProcess:
@@ -102,22 +137,30 @@ def cli():
     pass
 
 
-@cli.command()
-@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-def deploy(attestation_command: str):
+# @cli.command()
+# @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
+# @click.argument("chainid")
+def deploy(attestation_command: str, chain_id: int):
     """Deploy a schema for the given attestation command.
 
     ATTESTATION_COMMAND: One of INSTANTIATE, GRANT, CREATE_PROPOSAL_TYPE,
     CREATE_PROPOSAL, SIMPLE_VOTE, ADVANCED_VOTE, UNDO
     """
     attestation_command = attestation_command.upper()
-    config = get_env_config()
+    config = get_deployment_config(chain_id)
+    env_config = get_env_config()
     schema = SCHEMAS[attestation_command]
 
     click.echo(f"Deploying schema for {attestation_command}")
     click.echo(f"Schema: {schema}")
 
-    schema_contract = SCHEMA_CONTRACTS[config["chain_id"]]
+    schema_contract = SCHEMA_CONTRACTS[str(chain_id)]
+
+    resolver_label = RESOLVER[attestation_command]
+    if resolver_label:
+        resolver = config[resolver_label]
+    else:
+        resolver = '0x0000000000000000000000000000000000000000'
 
     # Build forge command for schema deployment
     # forge script is commonly used for deployments
@@ -129,22 +172,38 @@ def deploy(attestation_command: str):
         schema_contract,
         "register(string,address,bool)(bytes32)",
         schema,
-        "0x0000000000000000000000000000000000000000",
+        resolver,
         revocability,
         "--rpc-url", config["rpc_url"],
-        "--account", config["forge_account"],
-        "--chain-id", config["chain_id"]
+        "--account", env_config["forge_account"],
+        "--chain-id", str(chain_id)
     ]
 
     result = run_ext_command("cast", args)
     click.echo("Schema deployment initiated successfully!")
     click.echo(result.stdout)
 
+@cli.command()
+@click.argument("chainid")
+def deployall(chainid:int):
+    for i, schema in enumerate(SCHEMAS.keys()):
+        if i >= 4:
+            deploy(schema, int(chainid))
 
-def get_schema_id(attestation_command: str):
+def get_schema_id(attestation_command: str, chainid: int):
 
     schema = SCHEMAS[attestation_command]
-    resolver = to_checksum_address("0x0000000000000000000000000000000000000000")
+
+    deploy_config = get_deployment_config(chainid)
+
+    resolver_label = RESOLVER[attestation_command]
+
+    if resolver_label:
+        resolver = deploy_config[resolver_label]
+    else:
+        resolver = '0x0000000000000000000000000000000000000000'
+
+    resolver = to_checksum_address(resolver)
     revocable = REVOCABILITY[attestation_command]
 
     # print(["string", "address", "bool"], [schema, resolver, revocable == "true"])
@@ -219,7 +278,8 @@ def schema_hash(attestation_command: str = None):
 
 
 @cli.command()
-def schema_hashes():
+@click.argument("chainid")
+def schema_hashes(chainid:int):
     """List all schema names with their UIDs in compact format.
 
     Example output:
@@ -228,7 +288,7 @@ def schema_hashes():
       ...
     """
     for schema_name in SCHEMAS.keys():
-        schema_uid = get_schema_id(schema_name)
+        schema_uid = get_schema_id(schema_name, int(chainid))
         click.echo(f"{schema_name} : 0x{schema_uid}")
 
 
