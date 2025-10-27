@@ -39,6 +39,8 @@ contract VotesResolver is UpgradableSchemaResolver {
             (string, string, uint64, uint64, string)
         );
 
+        assert(proposalAttestation.recipient == attestation.recipient);
+
         if (block.timestamp < startts) {
             revert VotingNotStarted();
         }
