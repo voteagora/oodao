@@ -292,9 +292,11 @@ def schema_hashes(chainid:int):
       PERMA_INSTANTIATE : 0xe85e53a6d27f83a8d9e6ee94d01a312f54e82de919a708c17a9da6a899258cd1
       ...
     """
+    click.echo("{")
     for schema_name in SCHEMAS.keys():
         schema_uid = get_schema_id(schema_name, int(chainid))
-        click.echo(f"{schema_name} : 0x{schema_uid}")
+        click.echo(f"   '{schema_name}' : '0x{schema_uid}',")
+    click.echo("}")
 
 
 @cli.command()
