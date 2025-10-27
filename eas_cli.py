@@ -30,6 +30,7 @@ SCHEMAS = {
     "GRANT":                    "address verb,string permission,uint8 level,string filter",                                   # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "CREATE_PROPOSAL_TYPE":     "uint32 quorum,uint32 approval_threshold,string name,string description,string class",        # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
     "CREATE_PROPOSAL":          "string title,string description,uint64 startts,uint64 endts,string tags",                    # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0 -> bytes32 proposal_id
+    "CHECK_PROPOSAL":           "string[] passed,string[] failed",                                                            # recipient = address dao_id, bytes32 refUID = proposal_id
     "SET_PROPOSAL_TYPE":        "bytes32 proposal_id",                                                                        # recipient = address dao_id, bytes32 refUID = proposal_type_uid
     "SET_PARAM_VALUE":          "string param_name,uint256 param_value",                                                      # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
     "DELEGATED_SIMPLE_VOTE":    "address voter,int8 choice,string reason",                                                    # recipient = address dao_id, bytes32 refUID = proposal_id
@@ -56,9 +57,10 @@ REVOCABILITY['SIMPLE_VOTE'] = "false"
 REVOCABILITY['ADVANCED_VOTE'] = "false"
 REVOCABILITY['DELETE'] = "false"
 REVOCABILITY['SET_PARAM_VALUE'] = "false"
+REVOCABILITY['CHECK_PROPOSAL'] = "false"
 
 OPTIONAL_REFUID = ['CREATE_PROPOSAL']
-REQUIRES_REFUID = ['SET_PROPOSAL_TYPE', 'DELETE']
+REQUIRES_REFUID = ['CHECK_PROPOSAL', 'SET_PROPOSAL_TYPE', 'DELETE', 'DELEGATED_SIMPLE_VOTE', 'DELEGATED_ADVANCED_VOTE','SIMPLE_VOTE', 'ADVANCED_VOTE' ]
 
 def get_env_config() -> Dict[str, str]:
     """Load configuration from .env file."""
@@ -319,7 +321,7 @@ def attest(attestation_command: str, args: tuple):
 
     dao_id = config['dao_id']
 
-    schema_uid = get_schema_id(attestation_command)
+    schema_uid = get_schema_id(attestation_command, int(config["chain_id"]))
     eas_contract = EAS_CONTRACTS[config["chain_id"]]
 
     # Parse schema fields (types only)

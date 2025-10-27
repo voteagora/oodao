@@ -197,6 +197,21 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
+### 3.10 `CHECK_PROPOSAL`
+
+**Purpose:** Retroactively approve a proposal has met posting criteria. Intended to serve as a point-in-time check, so rules don't need to be maintained retro-actively.
+
+**Revocable:** False.
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `proposal_id` - The attestation of the proposal.
+
+**Schema Fields:**
+- `passed` (`string[]`): A list of checks that have been ran for this proposal, and passed.
+- `failed` (`string[]`): A list of checks that have been ran for this proposal, and failed.
+
+---
+
 ## 4. Timestamps
 
 All timestamps, unless otherwise noted, are POSIX, in seconds after 1970 UTC, and are assumed to have infinite trailing zeros of precision.
