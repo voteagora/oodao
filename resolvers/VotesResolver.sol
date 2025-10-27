@@ -12,14 +12,13 @@ contract VotesResolver is UpgradableSchemaResolver {
     error VotingEnded();
 
     event VoteCast(
-        uint256 indexed proposalId,
         address indexed voter,
         bytes32 indexed refUID,
         bytes data,
         bytes refData
     );
 
-    mapping(uint256 => mapping(address => bool)) internal _proposalVotes;
+    mapping(bytes32 => mapping(address => bool)) internal _proposalVotes;
 
     function initialize(IEAS eas, address _owner) public override initializer {
         UpgradableSchemaResolver.initialize(eas, _owner);
@@ -29,20 +28,15 @@ contract VotesResolver is UpgradableSchemaResolver {
         Attestation calldata attestation,
         uint256 /*value*/
     ) internal override returns (bool) {
-        (uint256 proposalId, , ) = abi.decode(
-            attestation.data,
-            (uint256, int8, string)
-        );
-
         address voter = attestation.attester;
 
         Attestation memory proposalAttestation = _eas.getAttestation(
             attestation.refUID
         );
 
-        (, , , uint64 startts, uint64 endts, ) = abi.decode(
+        (, , uint64 startts, uint64 endts, ) = abi.decode(
             proposalAttestation.data,
-            (uint256, string, string, uint64, uint64, string)
+            (string, string, uint64, uint64, string)
         );
 
         if (block.timestamp < startts) {
@@ -53,14 +47,13 @@ contract VotesResolver is UpgradableSchemaResolver {
             revert VotingEnded();
         }
 
-        if (_proposalVotes[proposalId][voter]) {
+        if (_proposalVotes[attestation.refUID][voter]) {
             revert AlreadyVoted();
         }
 
-        _countVote(voter, proposalId);
+        _countVote(voter, attestation.refUID);
 
         emit VoteCast(
-            proposalId,
             voter,
             attestation.refUID,
             attestation.data,
@@ -70,7 +63,7 @@ contract VotesResolver is UpgradableSchemaResolver {
         return true;
     }
 
-    function _countVote(address recipient, uint256 proposalId) internal {
+    function _countVote(address recipient, bytes32 proposalId) internal {
         _proposalVotes[proposalId][recipient] = true;
     }
 
