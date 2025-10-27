@@ -29,13 +29,13 @@ SCHEMAS = {
     "PERMA_INSTANTIATE":        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "GRANT":                    "address verb,string permission,uint8 level,string filter",                                   # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "CREATE_PROPOSAL_TYPE":     "uint32 quorum,uint32 approval_threshold,string name,string description,string class",        # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
-    "CREATE_PROPOSAL":          "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags",# recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0
-    "SET_PROPOSAL_TYPE":        "uint256 proposal_id",                                                                        # recipient = address dao_id, bytes32 refUID = proposal_type_uid
+    "CREATE_PROPOSAL":          "string title,string description,uint64 startts,uint64 endts,string tags",                    # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0 -> bytes32 proposal_id
+    "SET_PROPOSAL_TYPE":        "bytes32 proposal_id",                                                                        # recipient = address dao_id, bytes32 refUID = proposal_type_uid
     "SET_PARAM_VALUE":          "string param_name,uint256 param_value",                                                      # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "DELEGATED_SIMPLE_VOTE":    "uint256 proposal_id,address voter,int8 choice,string reason",                                # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "DELEGATED_ADVANCED_VOTE":  "uint256 proposal_id,address voter,string choice,string reason",                              # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "SIMPLE_VOTE":              "uint256 proposal_id,int8 choice,string reason",                                              # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
-    "ADVANCED_VOTE":            "uint256 proposal_id,string choice,string reason",                                            # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
+    "DELEGATED_SIMPLE_VOTE":    "address voter,int8 choice,string reason",                                                    # recipient = address dao_id, bytes32 refUID = proposal_id
+    "DELEGATED_ADVANCED_VOTE":  "address voter,string choice,string reason",                                                  # recipient = address dao_id, bytes32 refUID = proposal_id
+    "SIMPLE_VOTE":              "int8 choice,string reason",                                                                  # recipient = address dao_id, bytes32 refUID = proposal_id
+    "ADVANCED_VOTE":            "string choice,string reason",                                                                # recipient = address dao_id, bytes32 refUID = proposal_id
     "DELETE":                   "string verb,bytes32 schema_id"                                                               # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
 }
 

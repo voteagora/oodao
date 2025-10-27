@@ -105,15 +105,14 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.5 `CREATE_PROPOSAL`
 
-**Issuer:** Anyone (unguarded), but valid only if the issuer has `CREATE_PROPOSAL` permissions.  
-**Purpose:** Submit a proposal under a DAO-defined type.  
+**Issuer:** Anyone (unguarded), but valid only if the issuer has `CREATE_PROPOSAL` permissions.
+**Purpose:** Submit a proposal under a DAO-defined type.
 **Revocable:** True.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
-**refUID:** `proposal_type_uid` or `0x0` if no type specified
+**refUID:** `proposal_type_uid` or `0x0` if no type specified (returns `bytes32` proposal_id)
 
 **Schema Fields:**
-- `proposal_id` (`uint256`): Unique identifier for this proposal.
 - `title` (`string`): Proposal title.
 - `description` (`string`): Proposal description.
 - `startts` (`uint64`): Start timestamp.
@@ -132,7 +131,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **refUID:** `proposal_type_uid` - The proposal type to assign
 
 **Schema Fields:**
-- `proposal_id` (`uint256`): The proposal to update with a type.
+- `proposal_id` (`bytes32`): The proposal attestation UID to update with a type.
 
 ---
 
@@ -153,15 +152,14 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.8 `SIMPLE_VOTE`
 
-**Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
-**Purpose:** Record a vote with a simple numeric choice.  
+**Issuer:** Anyone (unguarded). Proposal type must define membership validity check.
+**Purpose:** Record a vote with a simple numeric choice.
 **Revocable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
-**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+**refUID:** `proposal_id` (`bytes32`) - The proposal attestation UID being voted on
 
 **Schema Fields:**
-- `proposal_id` (`uint256`): The proposal being voted on.
 - `voter` (`address`): Address casting the vote.
 - `choice` (`int8`): e.g. `1 = For`, `-1 = Against`, `0 = Abstain`.
 - `reason` (`string`): Optional reason for the vote.  
@@ -170,15 +168,14 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ### 3.9 `ADVANCED_VOTE`
 
-**Issuer:** Anyone (unguarded). Proposal type must define membership validity check.  
-**Purpose:** Record a vote with a JSON-encoded choice payload.  
+**Issuer:** Anyone (unguarded). Proposal type must define membership validity check.
+**Purpose:** Record a vote with a JSON-encoded choice payload.
 **Revocable:** False.
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
-**refUID:** `0x0` (discarded, returns `bytes32` attestation UID)
+**refUID:** `proposal_id` (`bytes32`) - The proposal attestation UID being voted on
 
 **Schema Fields:**
-- `proposal_id` (`uint256`): The proposal being voted on.
 - `voter` (`address`): Address casting the vote.
 - `choice` (`string`): JSON payload relevant to the proposal type.
 - `reason` (`string`): Optional reason for the vote.  

@@ -43,15 +43,15 @@ contract DaoSchemasV020 {
 
     // 5. CREATE_PROPOSAL
     // recipient: dao_uuid (address)
-    // refUID: proposal_type_uid or 0x0 if no type specified
+    // refUID: proposal_type_uid or 0x0 if no type specified (returns bytes32 proposal_id)
     string public constant CREATE_PROPOSAL_SCHEMA =
-        "uint256 proposal_id,string title,string description,uint64 startts,uint64 endts,string tags";
+        "string title,string description,uint64 startts,uint64 endts,string tags";
 
     // 6. SET_PROPOSAL_TYPE
     // recipient: dao_uuid (address)
     // refUID: proposal_type_uid
     string public constant SET_PROPOSAL_TYPE_SCHEMA =
-        "uint256 proposal_id";
+        "bytes32 proposal_id";
 
     // 7. SET_PARAM_VALUE
     // recipient: dao_uuid (address)
@@ -63,15 +63,15 @@ contract DaoSchemasV020 {
 
     // 8. SIMPLE_VOTE
     // recipient: dao_uuid (address)
-    // refUID: 0x0 (discarded, returns bytes32 attestation UID)
+    // refUID: proposal_id (bytes32) - The proposal attestation UID being voted on
     string public constant SIMPLE_VOTE_SCHEMA =
-        "uint256 proposal_id,address voter,int8 choice,string reason";
+        "address voter,int8 choice,string reason";
 
     // 9. ADVANCED_VOTE
     // recipient: dao_uuid (address)
-    // refUID: 0x0 (discarded, returns bytes32 attestation UID)
+    // refUID: proposal_id (bytes32) - The proposal attestation UID being voted on
     string public constant ADVANCED_VOTE_SCHEMA =
-        "uint256 proposal_id,address voter,string choice,string reason";
+        "address voter,string choice,string reason";
 
     // 10. DELETE
     // recipient: dao_uuid (address)
