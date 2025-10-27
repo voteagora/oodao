@@ -4,33 +4,49 @@ A Python command-line tool for deploying schemas and creating attestations using
 
 ## Overview
 
-This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO governance protocol defined in [protocol.md](./protocol.md). It supports all seven attestation types:
+This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO governance protocol defined in [protocol.md](./protocol.md). 
 
-- `INSTANTIATE` - Declare a DAO and assign initial authority
-- `GRANT` - Assign permissions to addresses within a DAO
-- `CREATE_PROPOSAL_TYPE` - Define proposal classes for the DAO
-- `CREATE_PROPOSAL` - Submit proposals under a DAO-defined type
-- `SIMPLE_VOTE` - Record votes with numeric choices (For/Against/Abstain)
-- `ADVANCED_VOTE` - Record votes with JSON-encoded choice payloads
-- `UNDO` - Retroactively nullify an attestation
+## Deployments
+
+# Eth Mainnet Entity Resolver Proxy:
+0x1a5628af2c02b9513722cc22ff606724c67ecb76
+
+# Eth Sepolia Entity Resolver Proxy:
+0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4
+
+
+
 
 ### Schema Hashes
 
 ```
-INSTANTIATE : 0x8ba7508bd53801fb932a73f12e2b4f78026bcf88d4e1c7a098ced7c0612ed211
-PERMA_INSTANTIATE : 0xaeff4a05b483128622bca8fc08c8b46fcf45a2402c86d050c627596492447913
-GRANT : 0x860ae1305cdafc30118cdf9b3aaece03c686e7498d77f00a7af3f466b88a3bd2
-CREATE_PROPOSAL_TYPE : 0x871d1c0e6b56a5eb8f285ae486db690205255c9152a2f6feb0c16bac1e7fe863
-CREATE_PROPOSAL : 0x12e8600c9bb57b5b436fa09735cfc63e95098552122001c465b610261eea8a93
-SET_PROPOSAL_TYPE : 0xc218b18af140c97644087c59e8ab35b981e73e026ffaf318f371c4ddc56efcb9
-SET_PARAM_VALUE : 0x654f697d66f87c1ee3f72a28e1383463418a9b8b8d54863b304acd558e98c675
-DELEGATED_SIMPLE_VOTE : 0xffcc8fe77f55448bee5f0e24844ee76f83c3c2718dcf8a75de750cf4797ad0bc
-DELEGATED_ADVANCED_VOTE : 0x16c4ffdf71c55b73e4ebf099baf78b97376020f6ba9ede5b618900bcb9101e0b
-SIMPLE_VOTE : 0x04cb5678af613212e584cf8d117ee3fcd038a9ab657ecf0c596cabe1e6ebd9f0
-ADVANCED_VOTE : 0x724c8d6579c5098a5d3c44717a5b5a8ea9e7064078ff8ca7d3de3f4ad5097627
-DELETE : 0xf691b5231d1f526f9fb59610734a7f4bf91d0330e6d559fd821d69adbda0fc8b
+
+Option A - Add Resolver & Sponsor for Admin
+Option B - Add SQL Filters everywhere <- ready to 
+
+X - INSTANTIATE : 0x8ba7508bd53801fb932a73f12e2b4f78026bcf88d4e1c7a098ced7c0612ed211
+X - PERMA_INSTANTIATE : 0xaeff4a05b483128622bca8fc08c8b46fcf45a2402c86d050c627596492447913
+# NOT USED - GRANT : 0x860ae1305cdafc30118cdf9b3aaece03c686e7498d77f00a7af3f466b88a3bd2
+X - CREATE_PROPOSAL_TYPE : 0x871d1c0e6b56a5eb8f285ae486db690205255c9152a2f6feb0c16bac1e7fe863
+O - CREATE_PROPOSAL : 0x12e8600c9bb57b5b436fa09735cfc63e95098552122001c465b610261eea8a93
+X - CHECKED_PROPOSAL : TODO - Make this, before our first spammer OR before the rules change
+X - SET_PROPOSAL_TYPE : 0xc218b18af140c97644087c59e8ab35b981e73e026ffaf318f371c4ddc56efcb9
+X - SET_PARAM_VALUE : 0x654f697d66f87c1ee3f72a28e1383463418a9b8b8d54863b304acd558e98c675
+V - DELEGATED_SIMPLE_VOTE : 0xffcc8fe77f55448bee5f0e24844ee76f83c3c2718dcf8a75de750cf4797ad0bc
+V - DELEGATED_ADVANCED_VOTE : 0x16c4ffdf71c55b73e4ebf099baf78b97376020f6ba9ede5b618900bcb9101e0b
+V - SIMPLE_VOTE : 0x04cb5678af613212e584cf8d117ee3fcd038a9ab657ecf0c596cabe1e6ebd9f0
+V - ADVANCED_VOTE : 0x724c8d6579c5098a5d3c44717a5b5a8ea9e7064078ff8ca7d3de3f4ad5097627
+X - DELETE : 0xf691b5231d1f526f9fb59610734a7f4bf91d0330e6d559fd821d69adbda0fc8b
 ```
 
+Next Steps:
+- Jeff to remove proposal_id from all attestations, switch for prop's ref_id
+- Pedro to check in resolvers, make it list of admins, into OODAO repo
+- Jeff to deploy resolvers to sepolia and mainnet
+- Jeff to update attestations (to reference correct resolver)
+- Jeff to deploy attestations to both seplia and mainnet
+- Jeff to instantiate syndicate DAO on sepolia
+- Jeff to instantiate syndicate DAO on mainnet
 
 ## Installation
 

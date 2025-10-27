@@ -2,34 +2,35 @@
 pragma solidity ^0.8.26;
 
 import {Script, console} from "forge-std/Script.sol";
-import {VotesResolver} from "../src/VotesResolver.sol";
+import {VotesResolver} from "../resolvers/VotesResolver.sol";
 import {EAS} from "eas-contracts/EAS.sol";
 import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 contract DeployVotesResolverScript is Script {
     function run() external {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        vm.startBroadcast(deployerPrivateKey);
-        address owner = 0xE7402214476843d4b59F455AB048ac71225D30D6;
 
-        // Optimism Mainnet
-        // EAS eas = EAS(0x4200000000000000000000000000000000000021);
-        // Sepolia
-        EAS eas = EAS(0xC2679fBD37d54388Ce493F1DB75320D236e1815e);
+        vm.startBroadcast();
+
+        // Read caller information.
+        (, address deployer,) = vm.readCallers();
+
+        address[] memory initialAttesters = new address[](1);
+        initialAttesters[0] = deployer;
+
+        // Read EAS contract address from environment variable
+        address easAddress = vm.envAddress("EAS_CONTRACT");
+        EAS eas = EAS(easAddress);
 
         // Deploy VotesResolver contract
         VotesResolver implementation = new VotesResolver();
 
-        bytes32 voterSchemaUID = 0xc35634c4ca8a54dce0a2af61a9a9a5a3067398cb3916b133238c4f6ba721bc8a;
-
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
             address(implementation),
-            owner,
+            deployer,
             abi.encodeWithSelector(
                 VotesResolver.initialize.selector,
                 eas,
-                owner,
-                voterSchemaUID
+                deployer
             )
         );
 

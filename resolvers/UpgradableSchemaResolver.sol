@@ -34,7 +34,7 @@ abstract contract UpgradableSchemaResolver is
 
     /// @dev Initializes the resolver implementation.
     /// @param eas The address of the global EAS contract.
-    function initialize(IEAS eas, address _owner) public initializer {
+    function initialize(IEAS eas, address _owner) public virtual initializer {
         __SchemaResolver_init(eas);
         __Ownable_init(_owner);
     }

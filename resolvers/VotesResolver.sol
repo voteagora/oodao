@@ -21,7 +21,7 @@ contract VotesResolver is UpgradableSchemaResolver {
 
     mapping(uint256 => mapping(address => bool)) internal _proposalVotes;
 
-    function initialize(IEAS eas, address _owner) public initializer {
+    function initialize(IEAS eas, address _owner) public override initializer {
         UpgradableSchemaResolver.initialize(eas, _owner);
     }
 
