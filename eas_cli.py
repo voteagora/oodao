@@ -92,7 +92,7 @@ def get_deployment_config(chain_id):
     elif chain_id == 11155111:
         rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
         votes_resolver = '0x990885ca636aaba3513e82d4e74b82b1f76bbb04'
-        entity_resolver = '0x0292b0ce4f6791ee6d91befbc9f16aed463d1412'
+        entity_resolver = '0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4'
     elif chain_id == 10:
         rpc_url = 'https://optimism-rpc.publicnode.com'
         votes_resolver = ...
@@ -304,6 +304,13 @@ def schema_hashes(chainid:int):
     for schema_name in SCHEMAS.keys():
         schema_uid = get_schema_id(schema_name, int(chainid))
         click.echo(f"   OR topics like '%{schema_uid}%'")
+
+    click.echo("FOR YAML:")
+    click.echo("cmd:")
+    click.echo(f"  {chainid}:")
+    for schema_name in SCHEMAS.keys():
+        schema_uid = get_schema_id(schema_name, int(chainid))
+        click.echo(f"    {schema_name}: '0x{schema_uid}'")
 
 
 @cli.command()
