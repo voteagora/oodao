@@ -8,23 +8,45 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 
 ## Deployments
 
-# Eth Mainnet Entity Resolver Proxy:
--
+# Eth Mainnet
 
-# Eth Sepolia Entity Resolver Proxy:
+## Entity Resolver Proxy:
+0x7f730aea758432bb0d5a1359746f2255e345f4e1
+
+## Votes Resolver Proxy:
+0x6d04c55db4b1f647ead847fb1feccd29ac0bfa84
+
+## Entities Implementation
+forge verify-contract \
+  --chain mainnet \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0x5ec8fdaa5040be3408c04cc1ee84481c735bbcd9 \
+  resolvers/EntitiesResolver.sol:EntitiesResolver
+
+## Votes Implementation
+forge verify-contract \
+  --chain mainnet \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0xe00fbb29000d4a3cf5eff1d6a2def4b7a388c761 \
+  resolvers/VotesResolver.sol:VotesResolver
+
+
+# Eth Sepolia 
+
+## Entity Resolver Proxy:
 0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4
 
-# Eth Sepolia Votes Resolver Proxy:
+## Votes Resolver Proxy:
 0x990885ca636aaba3513e82d4e74b82b1f76bbb04
 
-# Entities Implementation
+## Entities Implementation
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
   0x198c4171b7de6e1ea1b752896ad1555ad04b68f1 \
   resolvers/EntitiesResolver.sol:EntitiesResolver
 
-# Votes Implementation
+## Votes Implementation
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
@@ -41,6 +63,26 @@ forge verify-contract \
 
 
 ### Schema Hashes
+
+#### Mainnet Deployment
+
+```
+{
+   'INSTANTIATE' : '0x9ae11105c3161551c7c9a4c0c4eae3343e21f5d76df578ca6ed7189a23a4bb5c',
+   'PERMA_INSTANTIATE' : '0xe9f31c7a33877623b7833cf85031544865d45fc99673a3584470417d89d8d355',
+   'GRANT' : '0xc95eea0923b6637554da6b4eccf377c2204b3fd8d840b64bee4657ba3c9096ce',
+   'CREATE_PROPOSAL_TYPE' : '0x9c20478c45568b58f31b3d3bbd8f8235c1da82a90f6d684e28ace2de620dc1ad',
+   'CREATE_PROPOSAL' : '0x442d586d8424b5485de1ff46cb235dcb96b41d19834926bbad1cd157fbeeb8fc',
+   'CHECK_PROPOSAL' : '0x479e42ce8c35c53a243718c4c2eb1867e1215006e7d72885c178342f4df3ca01',
+   'SET_PROPOSAL_TYPE' : '0xe01a97552181ccc84fa3d962867b0f78ccab131a8a4a3b78c9396bc61926dff2',
+   'SET_PARAM_VALUE' : '0x2338b41569bd8e26d938bf7555890d4cc2fc8b4e8ecaf567e2ae821d4367cd28',
+   'DELEGATED_SIMPLE_VOTE' : '0x60d1d0641b8ab83aabf8bd7e49fece644a9a20e05a4132ac85a3e1efd9c319ee',
+   'DELEGATED_ADVANCED_VOTE' : '0x7712a927f5378bec2425e543a42a8d8e57ab98639e66d2c11fb9a69a3094edbd',
+   'SIMPLE_VOTE' : '0x3bc2cb5268eedcc69ce64646cd096ed4ef2ed0537cb6bbed80e5f7a844060610',
+   'ADVANCED_VOTE' : '0x6e464ac3ba1761e2e44057a8769e5ecbb3b09fa3332475cbeca27cce115aa46e',
+   'DELETE' : '0xd5c8d8a5f9eb7b9691acb2aa95e8a769984ce55d4c113511ba9ac366c29e1d62',
+}
+```
 
 #### Sepolia Deployment
 

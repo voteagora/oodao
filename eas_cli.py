@@ -17,9 +17,11 @@ from eth_utils import keccak, to_checksum_address
 # Load .env file
 load_dotenv()
 
-SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0'}
+SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0',
+                    '1' : '0xA7b39296258348C78294F95B872b282326A97BDF'}
 
-EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'}
+EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e',
+                 '1': '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587'}
 
 # Client Generates the dao_id -> could be collissions, 
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
@@ -87,8 +89,8 @@ def get_deployment_config(chain_id):
 
     if chain_id == 1:
         rpc_url = 'https://eth.llamarpc.com'
-        votes_resolver = ...
-        entity_resolver = ...
+        votes_resolver = '0x6d04c55db4b1f647ead847fb1feccd29ac0bfa84'
+        entity_resolver = '0x7f730aea758432bb0d5a1359746f2255e345f4e1'
     elif chain_id == 11155111:
         rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
         votes_resolver = '0x990885ca636aaba3513e82d4e74b82b1f76bbb04'
