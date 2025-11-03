@@ -16,7 +16,8 @@ contract DeployEntityResolverScript is Script {
 
         address[] memory initialAttesters = new address[](2);
         initialAttesters[0] = deployer;
-        initialAttesters[1] = 0x1B63e76c40c6967A8Aa17920De51b538625e4748;
+        initialAttesters[1] = 0x0FD3Cb37718A60293013EED17aC1c78a9b4af1C4;
+
 
         // Read EAS contract address from environment variable
         address easAddress = vm.envAddress("EAS_CONTRACT");

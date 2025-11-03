@@ -14,7 +14,7 @@ NETWORK=$1
 case $NETWORK in
   ethmain)
     export EAS_CONTRACT="0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587"
-    export RPC_URL="https://eth.llamarpc.com"
+    export RPC_URL="https://ethereum-rpc.publicnode.com"
     ;;
   ethtest)
     export EAS_CONTRACT="0xC2679fBD37d54388Ce493F1DB75320D236e1815e"

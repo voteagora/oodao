@@ -17,6 +17,7 @@ from eth_utils import keccak, to_checksum_address
 # Load .env file
 load_dotenv()
 
+
 SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0',
                     '1' : '0xA7b39296258348C78294F95B872b282326A97BDF'}
 
@@ -89,8 +90,8 @@ def get_deployment_config(chain_id):
 
     if chain_id == 1:
         rpc_url = 'https://eth.llamarpc.com'
-        votes_resolver = '0x6d04c55db4b1f647ead847fb1feccd29ac0bfa84'
-        entity_resolver = '0x7f730aea758432bb0d5a1359746f2255e345f4e1'
+        votes_resolver = '0x12b95074a0c760f43c4bed40a168b4ffec51ab6d' # proxy
+        entity_resolver = '0x85c1fd5527a723e39534736b0d6fda0c65304ede' # proxy
     elif chain_id == 11155111:
         rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
         votes_resolver = '0x990885ca636aaba3513e82d4e74b82b1f76bbb04'
@@ -191,6 +192,10 @@ def deploy(attestation_command: str, chain_id: int):
 @click.argument("chainid")
 def deployall(chainid:int):
     for i, schema in enumerate(SCHEMAS.keys()):
+
+        if i == 0:
+            continue
+        
         print(i, schema)
         try:
             deploy(schema, int(chainid))
