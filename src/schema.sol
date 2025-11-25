@@ -99,9 +99,8 @@ contract DaoSchemasV020 {
     // recipient: dao_uuid (address) - Target DAO
     // refUID: badge_definition_id (bytes32) - Links badge to specific definition
     // - user: user receiving badge
-    // - granted_at: POSIX timestamp when badge was granted
-    // - expires_at: POSIX timestamp when badge expires (0 = never)
     // - metadata: JSON string with additional badge data
+    // Note: Expiration handled via EAS expirationTime parameter (0 = never expires).
     string public constant IDENTITY_BADGE_SCHEMA =
-        "address user,uint64 granted_at,uint64 expires_at,string metadata";
+        "address user,string metadata";
 }

@@ -233,14 +233,13 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 **Issuer:** Authorized via EntitiesResolver.
 **Purpose:** Grant an identity badge to a user for a specific DAO.
 **Revokable:** True. Configurable per badge definition.
+**Expiration:** Handled via EAS expirationTime parameter (0 = never expires).
 
 **Recipient:** `dao_uuid` (`address`) - Target DAO.
 **refUID:** `badge_definition_id` (`bytes32`) - Links badge to specific definition.
 
 **Schema Fields:**
 - `user` (`address`): User receiving badge.
-- `granted_at` (`uint64`): POSIX timestamp when badge was granted.
-- `expires_at` (`uint64`): POSIX timestamp when badge expires (0 = never expires).
 - `metadata` (`string`): JSON string with additional badge data
 
 ---
