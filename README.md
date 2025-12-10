@@ -11,46 +11,54 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 # Eth Mainnet
 
 ## Entity Resolver Proxy:
-0x85c1fd5527a723e39534736b0d6fda0c65304ede
+0xf246C55a4f91f08c991F566fcF063156f67e6c03
+
+ProxyAdmin: 0x8D7512290251bd5417A00730aBFA0E5fdba1094A
 
 ## Votes Resolver Proxy:
-0x12b95074a0c760f43c4bed40a168b4ffec51ab6d
+0x576c9f4C976e2E6AF9E7093F1A23Fa31B21D4cB3
+
+ProxyAdmin: 0x4Ee4b7e6eE98e0b5361dACcF9062733858c4B066
 
 ## Entities Implementation
 forge verify-contract \
   --chain mainnet \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x32c5a9362fbe94543af2d7acec991d0952fdf217 \
+  0x76004fe594c9bc82effe6d6791b2269d4a85c7f4 \
   resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
 forge verify-contract \
   --chain mainnet \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0xb7f5d1a54e39617e63cea96032f6f9a751521bfa \
+  0x3bc0b1a341fdc3e09935f7e3cf69a4a401b2a982 \
   resolvers/VotesResolver.sol:VotesResolver
 
 
 # Eth Sepolia 
 
 ## Entity Resolver Proxy:
-0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4
+0x7106847Cc6c99E3D730D4f2a8312A905c0ad2ad7
+
+ProxyAdmin: 0xe84969F17B2628C71B421d552450b7F131bE07A2
 
 ## Votes Resolver Proxy:
-0x990885ca636aaba3513e82d4e74b82b1f76bbb04
+0xC8EA7C7651245728BE57c2d4C5638F8eF843b0E7
+
+ProxyAdmin: 0xaFb13914085154869a6770d6bbcE1Cc9B3aDE560
 
 ## Entities Implementation
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x198c4171b7de6e1ea1b752896ad1555ad04b68f1 \
+  0x3c8398c931a0dce8e7dfcf71ddf818fb20012878 \
   resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
 forge verify-contract \
   --chain sepolia \
   --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0xa3de35c6e91c9226b3e283782b9d16396112a506 \
+  0x4eb776bded70c78838ad48547003e1e9790133bc \
   resolvers/VotesResolver.sol:VotesResolver
 
 # Entities Proxy? (not working yet)
