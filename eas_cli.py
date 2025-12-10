@@ -32,7 +32,7 @@ SCHEMAS = {
     "PERMA_INSTANTIATE":        "uint8 protocol_version,string name,uint32 voting_period,uint32 voting_delay",                # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "GRANT":                    "address verb,string permission,uint8 level,string filter",                                   # recipient = address dao_id, address refUID = 0x0 -> bytes32 discarded
     "CREATE_PROPOSAL_TYPE":     "uint32 quorum,uint32 approval_threshold,string name,string description,string class",        # recipient = address dao_id, address refUID = 0x0 -> bytes32 proposal_type_uid
-    "CREATE_PROPOSAL":          "string title,string description,uint64 startts,uint64 endts,string tags",                    # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0 -> bytes32 proposal_id
+    "CREATE_PROPOSAL":          "string title,string description,uint64 startts,uint64 endts,string tags, string kwargs",     # recipient = address dao_id, bytes32 refUID = proposal_type_uid | 0x0 -> bytes32 proposal_id
     "CHECK_PROPOSAL":           "string[] passed,string[] failed",                                                            # recipient = address dao_id, bytes32 refUID = proposal_id
     "SET_PROPOSAL_TYPE":        "bytes32 proposal_id",                                                                        # recipient = address dao_id, bytes32 refUID = proposal_type_uid
     "SET_PARAM_VALUE":          "string param_name,uint256 param_value",                                                      # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 discarded
