@@ -5,10 +5,10 @@ import {Script, console} from "forge-std/Script.sol";
 import {EntitiesResolver} from "../resolvers/EntitiesResolver.sol";
 import {EAS} from "eas-contracts/EAS.sol";
 import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
 contract DeployEntityResolverScript is Script {
     function run() external {
-
         vm.startBroadcast();
 
         // Read caller information.
@@ -18,27 +18,24 @@ contract DeployEntityResolverScript is Script {
         initialAttesters[0] = deployer;
         initialAttesters[1] = 0x0FD3Cb37718A60293013EED17aC1c78a9b4af1C4;
 
-
         // Read EAS contract address from environment variable
         address easAddress = vm.envAddress("EAS_CONTRACT");
         EAS eas = EAS(easAddress);
+        // The deployer is the default owner of the proxy Admin
+        ProxyAdmin proxyAdmin = new ProxyAdmin(deployer);
 
         // Deploy ProjectAttesterResolver contract
         EntitiesResolver implementation = new EntitiesResolver();
 
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
             address(implementation),
-            deployer,
-            abi.encodeWithSelector(
-                EntitiesResolver.initialize.selector,
-                eas,
-                deployer,
-                initialAttesters
-            )
+            address(proxyAdmin),
+            abi.encodeWithSelector(EntitiesResolver.initialize.selector, eas, deployer, initialAttesters)
         );
 
         vm.stopBroadcast();
 
         console.log("Deployed EntityResolver at address:", address(proxy));
+        console.log("Deployed ProxyAdmin at address:", address(proxyAdmin));
     }
 }
