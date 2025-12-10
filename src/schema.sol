@@ -38,8 +38,9 @@ contract DaoSchemasV020 {
     // - name: human-readable name for this proposal type
     // - description: description of this proposal type
     // - class: must be "STANDARD", "APPROVAL", or "OPTIMISTIC"
+    // - kwargs: JSON string
     string public constant CREATE_PROPOSAL_TYPE_SCHEMA =
-        "uint32 quorum,uint32 approval_threshold,string name,string description,string class";
+        "uint32 quorum,uint32 approval_threshold,string name,string description,string class,string kwargs";
 
     // 5. CREATE_PROPOSAL
     // recipient: dao_uuid (address)
