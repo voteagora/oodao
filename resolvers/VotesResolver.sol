@@ -34,9 +34,9 @@ contract VotesResolver is UpgradableSchemaResolver {
             attestation.refUID
         );
 
-        (, , uint64 startts, uint64 endts, ) = abi.decode(
+        (, , uint64 startts, uint64 endts, , ) = abi.decode(
             proposalAttestation.data,
-            (string, string, uint64, uint64, string)
+            (string, string, uint64, uint64, string, string)
         );
 
         assert(proposalAttestation.recipient == attestation.recipient);
