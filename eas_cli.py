@@ -142,9 +142,9 @@ def cli():
     pass
 
 
-@cli.command()
-@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-@click.argument("chainid", type=int)
+# @cli.command()
+# @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
+# @click.argument("chainid", type=int)
 def deploy(attestation_command: str, chainid: int):
     """Deploy a schema for the given attestation command.
 
@@ -197,10 +197,9 @@ def deployall(chainid:int):
             continue
         
         print(i, schema)
-        try:
-            deploy(schema, int(chainid))
-        except:
-            print(f"Failed to deploy schema: {schema}")
+
+        deploy(schema, int(chainid))
+
 
 def get_schema_id(attestation_command: str, chainid: int):
 
