@@ -193,9 +193,6 @@ def deploy(attestation_command: str, chainid: int):
 def deployall(chainid:int):
     for i, schema in enumerate(SCHEMAS.keys()):
 
-        if i == 0:
-            continue
-        
         print(i, schema)
 
         deploy(schema, int(chainid))
