@@ -44,4 +44,5 @@ echo "RPC_URL: $RPC_URL"
 forge script script/DeployVotesResolver.s.sol:DeployVotesResolverScript \
   --rpc-url "$RPC_URL" \
   --broadcast \
-  --keystore "$KEYSTORE_PATH"
+  --keystore "$KEYSTORE_PATH" \
+  --slow
