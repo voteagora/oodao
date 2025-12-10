@@ -142,24 +142,24 @@ def cli():
     pass
 
 
-# @cli.command()
-# @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-# @click.argument("chainid")
-def deploy(attestation_command: str, chain_id: int):
+@cli.command()
+@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
+@click.argument("chainid", type=int)
+def deploy(attestation_command: str, chainid: int):
     """Deploy a schema for the given attestation command.
 
     ATTESTATION_COMMAND: One of INSTANTIATE, GRANT, CREATE_PROPOSAL_TYPE,
     CREATE_PROPOSAL, SIMPLE_VOTE, ADVANCED_VOTE, UNDO
     """
     attestation_command = attestation_command.upper()
-    config = get_deployment_config(chain_id)
+    config = get_deployment_config(chainid)
     env_config = get_env_config()
     schema = SCHEMAS[attestation_command]
 
     click.echo(f"Deploying schema for {attestation_command}")
     click.echo(f"Schema: {schema}")
 
-    schema_contract = SCHEMA_CONTRACTS[str(chain_id)]
+    schema_contract = SCHEMA_CONTRACTS[str(chainid)]
 
     resolver_label = RESOLVER[attestation_command]
     if resolver_label:
@@ -181,7 +181,7 @@ def deploy(attestation_command: str, chain_id: int):
         revocability,
         "--rpc-url", config["rpc_url"],
         "--account", env_config["forge_account"],
-        "--chain-id", str(chain_id)
+        "--chain-id", str(chainid)
     ]
 
     result = run_ext_command("cast", args)
