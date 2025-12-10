@@ -249,7 +249,7 @@ Deploy the CREATE_PROPOSAL schema:
 ./eas_cli.py deploy CREATE_PROPOSAL
 ```
 
-Submit a proposal:
+Submit a standard proposal:
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -258,10 +258,40 @@ Submit a proposal:
   "Treasury Allocation" \
   "Allocate 100 ETH to development fund" \
   1704067200 \
-  1704153600
+  1704153600 \
+  '{"voting_module": "standard"}'
 ```
 
-**Schema:** `bytes32 dao_uuid, bytes32 proposal_uuid, bytes32 proposal_type_uuid, string title, string description, uint64 startts, uint64 endts`
+Submit an approval proposal:
+```bash
+./eas_cli.py attest CREATE_PROPOSAL \
+  0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
+  0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321 \
+  0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890 \
+  "Treasury Allocation" \
+  "Allocate 100 ETH to development fund" \
+  1704067200 \
+  1704153600 \
+  '{"voting_module": "approval", "choices": ["A", "B", "C"], "max_approvals": 2, "criteria": "TOP_CHOICES", "criteria_value": 2}'
+```
+
+Submit an optimistic proposal:
+```bash
+./eas_cli.py attest CREATE_PROPOSAL \
+  0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
+  0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321 \
+  0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890 \
+  "Treasury Allocation" \
+  "Allocate 100 ETH to development fund" \
+  1704067200 \
+  1704153600 \
+  '{"voting_module": "optimistic"}'
+```
+
+**Schema:** `bytes32 dao_uuid, bytes32 proposal_uuid, bytes32 proposal_type_uuid, string title, string description, uint64 startts, uint64 endts, string kwargs`
+
+**kwargs:**
+`kwargs` is a JSON-encoded blob that allows clients to express richer proposal configuration without changing the onchain schema. This is where you specify details needed to support different proposal classes such as **approval**, and **optimistic** voting.
 
 **Timestamps:** POSIX timestamps in seconds (UTC)
 
