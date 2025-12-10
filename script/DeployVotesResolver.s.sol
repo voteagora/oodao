@@ -5,10 +5,10 @@ import {Script, console} from "forge-std/Script.sol";
 import {VotesResolver} from "../resolvers/VotesResolver.sol";
 import {EAS} from "eas-contracts/EAS.sol";
 import {TransparentUpgradeableProxy} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
 contract DeployVotesResolverScript is Script {
     function run() external {
-
         vm.startBroadcast();
 
         // Read caller information.
@@ -21,22 +21,21 @@ contract DeployVotesResolverScript is Script {
         // Read EAS contract address from environment variable
         address easAddress = vm.envAddress("EAS_CONTRACT");
         EAS eas = EAS(easAddress);
+        // The deployer is the default owner of the proxy Admin
+        ProxyAdmin proxyAdmin = new ProxyAdmin(deployer);
 
         // Deploy VotesResolver contract
         VotesResolver implementation = new VotesResolver();
 
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
             address(implementation),
-            deployer,
-            abi.encodeWithSelector(
-                VotesResolver.initialize.selector,
-                eas,
-                deployer
-            )
+            address(proxyAdmin),
+            abi.encodeWithSelector(VotesResolver.initialize.selector, eas, deployer)
         );
 
         vm.stopBroadcast();
 
         console.log("Deployed VotesResolver at address:", address(proxy));
+        console.log("Deployed ProxyAdmin at address:", address(proxyAdmin));
     }
 }
