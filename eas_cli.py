@@ -90,12 +90,12 @@ def get_deployment_config(chain_id):
 
     if chain_id == 1:
         rpc_url = 'https://eth.llamarpc.com'
-        votes_resolver = '0x12b95074a0c760f43c4bed40a168b4ffec51ab6d' # proxy
-        entity_resolver = '0x85c1fd5527a723e39534736b0d6fda0c65304ede' # proxy
+        votes_resolver = '0x576c9f4C976e2E6AF9E7093F1A23Fa31B21D4cB3' # proxy
+        entity_resolver = '0xf246C55a4f91f08c991F566fcF063156f67e6c03' # proxy
     elif chain_id == 11155111:
         rpc_url = 'https://ethereum-sepolia-rpc.publicnode.com'
-        votes_resolver = '0x990885ca636aaba3513e82d4e74b82b1f76bbb04'
-        entity_resolver = '0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4'
+        votes_resolver = '0xC8EA7C7651245728BE57c2d4C5638F8eF843b0E7'
+        entity_resolver = '0x7106847Cc6c99E3D730D4f2a8312A905c0ad2ad7'
     elif chain_id == 10:
         rpc_url = 'https://optimism-rpc.publicnode.com'
         votes_resolver = ...
@@ -142,9 +142,9 @@ def cli():
     pass
 
 
-@cli.command()
-@click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
-@click.argument("chainid", type=int)
+# @cli.command()
+# @click.argument("attestation_command", type=click.Choice(list(SCHEMAS.keys()), case_sensitive=False))
+# @click.argument("chainid", type=int)
 def deploy(attestation_command: str, chainid: int):
     """Deploy a schema for the given attestation command.
 
@@ -193,14 +193,10 @@ def deploy(attestation_command: str, chainid: int):
 def deployall(chainid:int):
     for i, schema in enumerate(SCHEMAS.keys()):
 
-        if i == 0:
-            continue
-        
         print(i, schema)
-        try:
-            deploy(schema, int(chainid))
-        except:
-            print(f"Failed to deploy schema: {schema}")
+
+        deploy(schema, int(chainid))
+
 
 def get_schema_id(attestation_command: str, chainid: int):
 

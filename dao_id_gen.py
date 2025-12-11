@@ -43,5 +43,11 @@ def pack_eth_address(ascii_str: str, num4: int, num1: int, num2: int) -> str:
     return hex_address
 
 # Example usage:
-address = pack_eth_address("syndicate", 1, 0, 0)
+print("Sepolia:")
+version = 1
+address = pack_eth_address("syndicate", 11155111, version, 0)
+print(address)
+
+print("Mainnet:")
+address = pack_eth_address("syndicate", 1, version, 0)
 print(address)
