@@ -9,6 +9,9 @@ import {ITransparentUpgradeableProxy, TransparentUpgradeableProxy} from "@openze
 import {ProxyAdmin} from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
 contract UpgradeEASContracts is Script {
+
+    uint8 public constant RESOLVER_UPGRADE = 0;
+
     function run() external {
         vm.startBroadcast();
 
@@ -31,18 +34,17 @@ contract UpgradeEASContracts is Script {
         EAS eas = EAS(easAddress);
         ProxyAdmin proxyAdmin = ProxyAdmin(proxyAdminAddress);
 
-        if (path == 1) {
+        if (path == RESOLVER_UPGRADE) {
             implementation = address(new VotesResolver());
-            reinitialize = abi.encodeWithSelector(VotesResolver.initialize.selector, eas, deployer);
         }
 
         else {
             implementation = address(new EntitiesResolver());
-            reinitialize = abi.encodeWithSelector(EntitiesResolver.initialize.selector, eas, deployer, initialAttesters);
         }
 
         assert(deployer == proxyAdmin.owner());
-        proxyAdmin.upgradeAndCall(ITransparentUpgradeableProxy(proxy), implementation, reinitialize);
+        bytes memory data;
+        proxyAdmin.upgradeAndCall(ITransparentUpgradeableProxy(proxy), implementation, data);
 
         vm.stopBroadcast();
 
