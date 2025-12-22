@@ -28,6 +28,10 @@ case $NETWORK in
     export EAS_CONTRACT="0x4200000000000000000000000000000000000021"
     export RPC_URL="https://sepolia.optimism.io"
     ;;
+  basemain)
+    export EAS_CONTRACT="0x4200000000000000000000000000000000000021"
+    export RPC_URL="https://mainnet.base.org"
+    ;;
   *)
     echo "Error: Unknown network '$NETWORK'"
     echo "Valid networks: ethmain, ethtest, opmain, optest"

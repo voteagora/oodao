@@ -68,6 +68,31 @@ forge verify-contract \
   0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
   lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
 
+# Base Mainnet
+
+## Entity Resolver Proxy:
+0xEF28EB0D4186E5795ddD25E792697abFBabceC42
+
+ProxyAdmin: 0x458fAdE53C9a7186b4f097527ee1441eBD8ecAD5
+
+## Votes Resolver Proxy:
+0x83e02A6b7DA88d78a90Bdf7C0B8a9dd93624801c
+
+ProxyAdmin: 0xE6fDeEfD25c6973d57AA7757BA546027625c40a4
+
+## Entities Implementation
+forge verify-contract \
+  --chain base \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0x74696ddE42619d9034A585F55C3Df499fc26cAa2 \
+  resolvers/EntitiesResolver.sol:EntitiesResolver
+
+## Votes Implementation
+forge verify-contract \
+  --chain base \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
+  resolvers/VotesResolver.sol:VotesResolver
 
 
 ### Schema Hashes
