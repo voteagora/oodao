@@ -19,10 +19,12 @@ load_dotenv()
 
 
 SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0',
-                    '1' : '0xA7b39296258348C78294F95B872b282326A97BDF'}
+                    '1' : '0xA7b39296258348C78294F95B872b282326A97BDF',
+                    '8453': '0x4200000000000000000000000000000000000020'}
 
 EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e',
-                 '1': '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587'}
+                 '1': '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587',
+                 '8453': '0x4200000000000000000000000000000000000021'}
 
 # Client Generates the dao_id -> could be collissions, 
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
@@ -104,6 +106,10 @@ def get_deployment_config(chain_id):
         rpc_url = 'https://sepolia.optimism.io'
         votes_resolver = ...
         entity_resolver = ...
+    elif chain_id == 8453:
+        rpc_url = 'https://mainnet.base.org'
+        votes_resolver = '0x83e02A6b7DA88d78a90Bdf7C0B8a9dd93624801c'
+        entity_resolver = '0xEF28EB0D4186E5795ddD25E792697abFBabceC42'
     else:
         raise Exception(f"Chain ID unsupported: {chain_id}")
 
