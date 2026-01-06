@@ -4,121 +4,137 @@ A Python command-line tool for deploying schemas and creating attestations using
 
 ## Overview
 
-This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO governance protocol defined in [protocol.md](./protocol.md). 
+This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO governance protocol defined in [protocol.md](./protocol.md).
 
 ## Deployments
 
 # Eth Mainnet
 
 ## Entity Resolver Proxy:
+
 0xf246C55a4f91f08c991F566fcF063156f67e6c03
 
 ProxyAdmin: 0x8D7512290251bd5417A00730aBFA0E5fdba1094A
 
 ## Votes Resolver Proxy:
+
 0x576c9f4C976e2E6AF9E7093F1A23Fa31B21D4cB3
 
 ProxyAdmin: 0x4Ee4b7e6eE98e0b5361dACcF9062733858c4B066
 
 ## Entities Implementation
+
 forge verify-contract \
-  --chain mainnet \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x76004fe594c9bc82effe6d6791b2269d4a85c7f4 \
-  resolvers/EntitiesResolver.sol:EntitiesResolver
+ --chain mainnet \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x76004fe594c9bc82effe6d6791b2269d4a85c7f4 \
+ resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
+
 forge verify-contract \
-  --chain mainnet \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x3bc0b1a341fdc3e09935f7e3cf69a4a401b2a982 \
-  resolvers/VotesResolver.sol:VotesResolver
+ --chain mainnet \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x3bc0b1a341fdc3e09935f7e3cf69a4a401b2a982 \
+ resolvers/VotesResolver.sol:VotesResolver
 
-
-# Eth Sepolia 
+# Eth Sepolia
 
 ## Entity Resolver Proxy:
+
 0x7106847Cc6c99E3D730D4f2a8312A905c0ad2ad7
 
 ProxyAdmin: 0xe84969F17B2628C71B421d552450b7F131bE07A2
 
 ## Votes Resolver Proxy:
+
 0xC8EA7C7651245728BE57c2d4C5638F8eF843b0E7
 
 ProxyAdmin: 0xaFb13914085154869a6770d6bbcE1Cc9B3aDE560
 
 ## Entities Implementation
+
 forge verify-contract \
-  --chain sepolia \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x3c8398c931a0dce8e7dfcf71ddf818fb20012878 \
-  resolvers/EntitiesResolver.sol:EntitiesResolver
+ --chain sepolia \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x3c8398c931a0dce8e7dfcf71ddf818fb20012878 \
+ resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
+
 forge verify-contract \
-  --chain sepolia \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x4eb776bded70c78838ad48547003e1e9790133bc \
-  resolvers/VotesResolver.sol:VotesResolver
+ --chain sepolia \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x4eb776bded70c78838ad48547003e1e9790133bc \
+ resolvers/VotesResolver.sol:VotesResolver
 
 # Entities Proxy? (not working yet)
+
 forge verify-contract \
-  --chain sepolia \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
-  lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
+ --chain sepolia \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
+ lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
 
 # Base Mainnet
 
 ## Entity Resolver Proxy:
+
 0xEF28EB0D4186E5795ddD25E792697abFBabceC42
 
 ProxyAdmin: 0x458fAdE53C9a7186b4f097527ee1441eBD8ecAD5
 
 ## Votes Resolver Proxy:
+
 0x83e02A6b7DA88d78a90Bdf7C0B8a9dd93624801c
 
 ProxyAdmin: 0xE6fDeEfD25c6973d57AA7757BA546027625c40a4
 
 ## Entities Implementation
+
 forge verify-contract \
-  --chain base \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x74696ddE42619d9034A585F55C3Df499fc26cAa2 \
-  resolvers/EntitiesResolver.sol:EntitiesResolver
+ --chain base \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x74696ddE42619d9034A585F55C3Df499fc26cAa2 \
+ resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
+
 forge verify-contract \
-  --chain base \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
-  resolvers/VotesResolver.sol:VotesResolver
+ --chain base \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
+ resolvers/VotesResolver.sol:VotesResolver
 
 # OP Mainnet
 
 ## Entity Resolver Proxy:
+
 0x2829EE5e93cD1671140D8AE1fe7524Ba1F5AC6ad
 
 ProxyAdmin: 0xeb4Ceb297f180057CD6616d0FC5077Be795d6683
 
 ## Votes Resolver Proxy:
+
 0x3d0Ee8700f3A2267a677504FfEdAE54A15ABBE7B
 
 ProxyAdmin: 0x8e1892c1Eb9a2E20df90f9d55f25e765542c6790
 
 ## Entities Implementation
+
 forge verify-contract \
-  --chain optimism \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x793638ef3b7299deaa0496e61212d01fbaabc1fb \
-  resolvers/EntitiesResolver.sol:EntitiesResolver
+ --chain optimism \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x793638ef3b7299deaa0496e61212d01fbaabc1fb \
+ resolvers/EntitiesResolver.sol:EntitiesResolver
 
 ## Votes Implementation
+
 forge verify-contract \
-  --chain optimism \
-  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
-  0x4fb8eab75fc8422a72ccdf100ce3acaa29167b1f \
-  resolvers/VotesResolver.sol:VotesResolver
+ --chain optimism \
+ --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ 0x4fb8eab75fc8422a72ccdf100ce3acaa29167b1f \
+ resolvers/VotesResolver.sol:VotesResolver
 
 ### Schema Hashes
 
@@ -159,6 +175,8 @@ forge verify-contract \
    'SIMPLE_VOTE' : '0x19c36b80a224c4800fd6ed68901ec21f591563c8a5cb2dd95382d430603f91ff',
    'ADVANCED_VOTE' : '0x991b014c62b19364882fc89dbf3baa6104b4598ee2c4f29152be2cbcfcb4cb81',
    'DELETE' : '0x2c451b53c595d44441eb1e8242912a0446e7bfc5f745535537908bef47e6e334',
+   'BADGE_DEFINITION': '0x44c0a23e342cc3b74cae094dd9be5b38447ec67045ccea4868c74d6387a52fca',
+   'IDENTITY_BADGE': '0x0b9dd04e9927bd43e11ddd02c31a971859ffc23abed1a0eb226fa13bfd5046d4',
 }
 ```
 
@@ -179,6 +197,30 @@ forge verify-contract \
    'SIMPLE_VOTE' : '0x72edbb9603b8ff8ae5310c1d33912f4a7998bea0c03afc0e06a64e41d32b78b9',
    'ADVANCED_VOTE' : '0xadeeda60a3496bacee2d9fb250dc3b2af802d2623feb31e211cfc8f210119fea',
    'DELETE' : '0x9b33510be4b823ffbaa2c55e9e5b2762c37a32361c24289655d35bef1ecd7b9b',
+   'BADGE_DEFINITION' : '0x37b439c809cec771782b95da77af9d1ed1724fe5d4ce14bce55b5b8c2373fe30',
+   'IDENTITY_BADGE' : '0x29283083ab37d4c00e1f2186492d9df145e9648229da70810c36da04f35c2e13',
+}
+```
+
+#### Optimism Mainnet Deployment
+
+```
+{
+   'INSTANTIATE' : '0x91b236556a1503af427e3eac950b37f19c22d4e975b72aec520212261902b102',
+   'PERMA_INSTANTIATE' : '0xec89a693c93a79b17cb778fe793fa1a26f040954eb8bd4b99fe5cb5a06bf631c',
+   'GRANT' : '0x98bea12de475e8ad6a74b7ccaea65ade03615da82cc6dc2fe51a9d7492986942',
+   'CREATE_PROPOSAL_TYPE' : '0xd2c361729c5542fb5821b5d2e786ea961611f5483943ff705d0bbd5b8fb75712',
+   'CREATE_PROPOSAL' : '0x38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a',
+   'CHECK_PROPOSAL' : '0xfec5cd334991ff965ed91167c7542028aaedacd12e33e828097718d1616bf6d5',
+   'SET_PROPOSAL_TYPE' : '0xef9cc3898fd4664f66c37158a7888fa6d43c2e701db83603c9a63be8249d72f6',
+   'SET_PARAM_VALUE' : '0x481be5d3cfd5551ce60aa6c8e66b1cc2f960ee7a0700e5a6d00ab2183390b5eb',
+   'DELEGATED_SIMPLE_VOTE' : '0xebdb46abcca3042ac41c8eb5c9ce67639443b0f756145fe226bf6456e008900d',
+   'DELEGATED_ADVANCED_VOTE' : '0x5b439cb5cb1598b4906f69f3b48b0de0b5987ccfff0f35fbad109d349307ced0',
+   'SIMPLE_VOTE' : '0xa75b4e232ed088242e7ed3ec4e2f7c05836ed48fa4859febe7e505972345abc6',
+   'ADVANCED_VOTE' : '0x968d2abd9840871fc61e0f5fc267e2f16ea29b11cebc1aae33056d0cce79582d',
+   'DELETE' : '0xb4916db80e2576f3b43279838d120c35cb70f933595ac1228fac97a49d58115d',
+   'BADGE_DEFINITION' : '0xaa192e7d4d23ded5ce0d883324276131253880ae37f72dc5997327f9bae33d35',
+   'IDENTITY_BADGE' : '0xcfa6d9f1417bdef7b4d77f2e2259da4a6356a3e445fc299a9aef3834e9f4031a',
 }
 ```
 
@@ -196,6 +238,8 @@ V - DELEGATED_ADVANCED_VOTE
 V - SIMPLE_VOTE
 V - ADVANCED_VOTE
 X - DELETE
+X - BADGE_DEFINITION
+X - IDENTITY_BADGE
 ```
 
 ## Installation
@@ -208,16 +252,19 @@ X - DELETE
 ### Setup
 
 1. Install Python dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 2. Configure environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
 Edit `.env` with your values:
+
 ```env
 CHAIN_ID=11155111                                    # Network chain ID
 RPC_URL=https://ethereum-sepolia-rpc.publicnode.com  # RPC endpoint
@@ -225,6 +272,7 @@ FORGE_ACCOUNT=default                                 # Forge account name
 ```
 
 3. Make the CLI executable (optional):
+
 ```bash
 chmod +x eas_cli.py
 ```
@@ -240,6 +288,7 @@ Deploy a schema for an attestation type:
 ```
 
 **Examples:**
+
 ```bash
 ./eas_cli.py deploy INSTANTIATE
 ./eas_cli.py deploy GRANT
@@ -261,11 +310,13 @@ Arguments must match the schema field order defined in [protocol.md](./protocol.
 ### 1. Instantiate a DAO
 
 Deploy the INSTANTIATE schema:
+
 ```bash
 ./eas_cli.py deploy INSTANTIATE
 ```
 
 Create an INSTANTIATE attestation:
+
 ```bash
 ./eas_cli.py attest INSTANTIATE \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -278,11 +329,13 @@ Create an INSTANTIATE attestation:
 ### 2. Grant Permissions
 
 Deploy the GRANT schema:
+
 ```bash
 ./eas_cli.py deploy GRANT
 ```
 
 Grant CREATE_PROPOSAL permission to an address:
+
 ```bash
 ./eas_cli.py attest GRANT \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -295,6 +348,7 @@ Grant CREATE_PROPOSAL permission to an address:
 **Schema:** `bytes32 dao_uuid, address subject, string permission, uint8 level, string filter`
 
 **Permission levels** (bitmask):
+
 - Bit 0 (1): CREATE
 - Bit 1 (2): REVOKE
 - Bit 2 (4): UNDO
@@ -303,11 +357,13 @@ Grant CREATE_PROPOSAL permission to an address:
 ### 3. Create a Proposal Type
 
 Deploy the CREATE_PROPOSAL_TYPE schema:
+
 ```bash
 ./eas_cli.py deploy CREATE_PROPOSAL_TYPE
 ```
 
 Define a standard proposal type:
+
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL_TYPE \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -323,11 +379,13 @@ Define a standard proposal type:
 ### 4. Create a Proposal
 
 Deploy the CREATE_PROPOSAL schema:
+
 ```bash
 ./eas_cli.py deploy CREATE_PROPOSAL
 ```
 
 Submit a standard proposal:
+
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -341,6 +399,7 @@ Submit a standard proposal:
 ```
 
 Submit an approval proposal:
+
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -354,6 +413,7 @@ Submit an approval proposal:
 ```
 
 Submit an optimistic proposal:
+
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -376,11 +436,13 @@ Submit an optimistic proposal:
 ### 5. Cast a Simple Vote
 
 Deploy the SIMPLE_VOTE schema:
+
 ```bash
 ./eas_cli.py deploy SIMPLE_VOTE
 ```
 
 Vote on a proposal:
+
 ```bash
 ./eas_cli.py attest SIMPLE_VOTE \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -394,6 +456,7 @@ Vote on a proposal:
 **Schema:** `bytes32 dao_uuid, bytes32 proposal_uuid, address voter, int8 choice, string reason, uint256 weight`
 
 **Vote choices:**
+
 - `1` = For
 - `-1` = Against
 - `0` = Abstain
@@ -401,11 +464,13 @@ Vote on a proposal:
 ### 6. Cast an Advanced Vote
 
 Deploy the ADVANCED_VOTE schema:
+
 ```bash
 ./eas_cli.py deploy ADVANCED_VOTE
 ```
 
 Vote with complex choice data:
+
 ```bash
 ./eas_cli.py attest ADVANCED_VOTE \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
@@ -421,11 +486,13 @@ Vote with complex choice data:
 ### 7. Undo an Attestation
 
 Deploy the UNDO schema:
+
 ```bash
 ./eas_cli.py deploy UNDO
 ```
 
 Retroactively nullify an attestation:
+
 ```bash
 ./eas_cli.py attest UNDO \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \

@@ -85,4 +85,22 @@ contract DaoSchemasV020 {
     // refUID: proposal_id
     string public constant CHECK_PROPOSAL =
         "string[] passed,string[] failed";
+
+    // 11. BADGE_DEFINITION
+    // recipient: dao_uuid (address) - Target DAO
+    // refUID: 0x0 (returns bytes32 badge_definition_id)
+    // - name: human-readable badge name
+    // - description: purpose and meaning of the badge
+    // - revocable: whether badges of this type can be revoked
+    string public constant BADGE_DEFINITION_SCHEMA =
+        "string name,string description,bool revocable";
+
+    // 12. IDENTITY_BADGE
+    // recipient: dao_uuid (address) - Target DAO
+    // refUID: badge_definition_id (bytes32) - Links badge to specific definition
+    // - user: user receiving badge
+    // - metadata: JSON string with additional badge data
+    // Note: Expiration handled via EAS expirationTime parameter (0 = never expires).
+    string public constant IDENTITY_BADGE_SCHEMA =
+        "address user,string metadata";
 }

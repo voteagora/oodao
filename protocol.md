@@ -212,6 +212,38 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 
 ---
 
+### 3.11 `BADGE_DEFINITION`
+
+**Issuer:** Authorized via EntitiesResolver.
+**Purpose:** Define a badge type for a DAO. Badges distinguish users for governance participation and honorary recognition.
+**Revokable:** False.
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `0x0` (returns `bytes32` badge_definition_id)
+
+**Schema Fields:**
+- `name` (`string`): Human-readable badge name.
+- `description` (`string`): Purpose and meaning of the badge.
+- `revocable` (`bool`): Whether badges of this type can be revoked.
+
+---
+
+### 3.12 `IDENTITY_BADGE`
+
+**Issuer:** Authorized via EntitiesResolver.
+**Purpose:** Grant an identity badge to a user for a specific DAO.
+**Revokable:** True. Configurable per badge definition.
+**Expiration:** Handled via EAS expirationTime parameter (0 = never expires).
+
+**Recipient:** `dao_uuid` (`address`) - Target DAO.
+**refUID:** `badge_definition_id` (`bytes32`) - Links badge to specific definition.
+
+**Schema Fields:**
+- `user` (`address`): User receiving badge.
+- `metadata` (`string`): JSON string with additional badge data
+
+---
+
 ## 4. Timestamps
 
 All timestamps, unless otherwise noted, are POSIX, in seconds after 1970 UTC, and are assumed to have infinite trailing zeros of precision.
@@ -244,5 +276,11 @@ Attestations must be included in blocks with timestamps before the prevailing ti
    - Results tallied offchain (or onchain with resolver logic).  
 
 4. **Delete**
-   - If a proposal was created fraudulently, an authorized actor can issue `DELETE` on its UID.  
+   - If a proposal was created fraudulently, an authorized actor can issue `DELETE` on its UID.
+
+5. **Badge Management**
+   - Admin creates `BADGE_DEFINITION` (e.g., "Security Council Member").
+   - Admin grants `IDENTITY_BADGE` to user, linking to the badge definition.
+   - Badge appears on user's profile and in governance discussions.
+   - If needed, admin can revoke badge (if definition allows).
 

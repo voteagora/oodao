@@ -20,11 +20,13 @@ load_dotenv()
 
 SCHEMA_CONTRACTS = {'11155111': '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0',
                     '1' : '0xA7b39296258348C78294F95B872b282326A97BDF',
-                    '8453': '0x4200000000000000000000000000000000000020'}
+                    '8453': '0x4200000000000000000000000000000000000020',
+                    '10': '0x4200000000000000000000000000000000000020'}
 
 EAS_CONTRACTS = {'11155111': '0xC2679fBD37d54388Ce493F1DB75320D236e1815e',
                  '1': '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587',
-                 '8453': '0x4200000000000000000000000000000000000021'}
+                 '8453': '0x4200000000000000000000000000000000000021',
+                 '10': '0x4200000000000000000000000000000000000021'}
 
 # Client Generates the dao_id -> could be collissions, 
 # but as long as collissions are resolved by using the latest instantiate by a permissioned address... does it matter? Vanity addresses are possible here.
@@ -42,7 +44,9 @@ SCHEMAS = {
     "DELEGATED_ADVANCED_VOTE":  "address voter,string choice,string reason",                                                  # recipient = address dao_id, bytes32 refUID = proposal_id
     "SIMPLE_VOTE":              "int8 choice,string reason",                                                                  # recipient = address dao_id, bytes32 refUID = proposal_id
     "ADVANCED_VOTE":            "string choice,string reason",                                                                # recipient = address dao_id, bytes32 refUID = proposal_id
-    "DELETE":                   "string verb,bytes32 schema_id"                                                               # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
+    "DELETE":                   "string verb,bytes32 schema_id",                                                              # recipient = address dao_id, bytes32 refUID = uid_of_attestation_to_undo
+    "BADGE_DEFINITION":         "string name,string description,bool revocable",                                              # recipient = address dao_id, bytes32 refUID = 0x0 -> bytes32 badge_definition_id
+    "IDENTITY_BADGE":           "address user,string metadata"                                                                # recipient = address dao_id, bytes32 refUID = badge_definition_id
 }
 
 RESOLVER = {schema : "entity_resolver" for schema in SCHEMAS.keys()}
@@ -63,9 +67,11 @@ REVOCABILITY['ADVANCED_VOTE'] = "false"
 REVOCABILITY['DELETE'] = "false"
 REVOCABILITY['SET_PARAM_VALUE'] = "false"
 REVOCABILITY['CHECK_PROPOSAL'] = "false"
+REVOCABILITY['BADGE_DEFINITION'] = "false"
+REVOCABILITY['IDENTITY_BADGE'] = "true"
 
 OPTIONAL_REFUID = ['CREATE_PROPOSAL']
-REQUIRES_REFUID = ['CHECK_PROPOSAL', 'SET_PROPOSAL_TYPE', 'DELETE', 'DELEGATED_SIMPLE_VOTE', 'DELEGATED_ADVANCED_VOTE','SIMPLE_VOTE', 'ADVANCED_VOTE' ]
+REQUIRES_REFUID = ['CHECK_PROPOSAL', 'SET_PROPOSAL_TYPE', 'DELETE', 'DELEGATED_SIMPLE_VOTE', 'DELEGATED_ADVANCED_VOTE','SIMPLE_VOTE', 'ADVANCED_VOTE', 'IDENTITY_BADGE' ]
 
 def get_env_config() -> Dict[str, str]:
     """Load configuration from .env file."""
@@ -100,8 +106,8 @@ def get_deployment_config(chain_id):
         entity_resolver = '0x7106847Cc6c99E3D730D4f2a8312A905c0ad2ad7'
     elif chain_id == 10:
         rpc_url = 'https://optimism-rpc.publicnode.com'
-        votes_resolver = ...
-        entity_resolver = ...
+        votes_resolver = '0x3d0Ee8700f3A2267a677504FfEdAE54A15ABBE7B'
+        entity_resolver = '0x2829EE5e93cD1671140D8AE1fe7524Ba1F5AC6ad'
     elif chain_id == 11155420:
         rpc_url = 'https://sepolia.optimism.io'
         votes_resolver = ...
