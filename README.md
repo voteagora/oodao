@@ -94,6 +94,31 @@ forge verify-contract \
   0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
   resolvers/VotesResolver.sol:VotesResolver
 
+# OP Mainnet
+
+## Entity Resolver Proxy:
+0x2829EE5e93cD1671140D8AE1fe7524Ba1F5AC6ad
+
+ProxyAdmin: 0xeb4Ceb297f180057CD6616d0FC5077Be795d6683
+
+## Votes Resolver Proxy:
+0x3d0Ee8700f3A2267a677504FfEdAE54A15ABBE7B
+
+ProxyAdmin: 0x8e1892c1Eb9a2E20df90f9d55f25e765542c6790
+
+## Entities Implementation
+forge verify-contract \
+  --chain optimism \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0x793638ef3b7299deaa0496e61212d01fbaabc1fb \
+  resolvers/EntitiesResolver.sol:EntitiesResolver
+
+## Votes Implementation
+forge verify-contract \
+  --chain optimism \
+  --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+  0x4fb8eab75fc8422a72ccdf100ce3acaa29167b1f \
+  resolvers/VotesResolver.sol:VotesResolver
 
 ### Schema Hashes
 
