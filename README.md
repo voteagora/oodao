@@ -26,7 +26,7 @@ ProxyAdmin: 0x4Ee4b7e6eE98e0b5361dACcF9062733858c4B066
 
 forge verify-contract \
  --chain mainnet \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x76004fe594c9bc82effe6d6791b2269d4a85c7f4 \
  resolvers/EntitiesResolver.sol:EntitiesResolver
 
@@ -34,7 +34,7 @@ forge verify-contract \
 
 forge verify-contract \
  --chain mainnet \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x3bc0b1a341fdc3e09935f7e3cf69a4a401b2a982 \
  resolvers/VotesResolver.sol:VotesResolver
 
@@ -56,7 +56,7 @@ ProxyAdmin: 0xaFb13914085154869a6770d6bbcE1Cc9B3aDE560
 
 forge verify-contract \
  --chain sepolia \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x3c8398c931a0dce8e7dfcf71ddf818fb20012878 \
  resolvers/EntitiesResolver.sol:EntitiesResolver
 
@@ -64,7 +64,7 @@ forge verify-contract \
 
 forge verify-contract \
  --chain sepolia \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x4eb776bded70c78838ad48547003e1e9790133bc \
  resolvers/VotesResolver.sol:VotesResolver
 
@@ -72,7 +72,7 @@ forge verify-contract \
 
 forge verify-contract \
  --chain sepolia \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
  lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
 
@@ -94,7 +94,7 @@ ProxyAdmin: 0xE6fDeEfD25c6973d57AA7757BA546027625c40a4
 
 forge verify-contract \
  --chain base \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x74696ddE42619d9034A585F55C3Df499fc26cAa2 \
  resolvers/EntitiesResolver.sol:EntitiesResolver
 
@@ -102,7 +102,7 @@ forge verify-contract \
 
 forge verify-contract \
  --chain base \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
  resolvers/VotesResolver.sol:VotesResolver
 
@@ -124,7 +124,7 @@ ProxyAdmin: 0x8e1892c1Eb9a2E20df90f9d55f25e765542c6790
 
 forge verify-contract \
  --chain optimism \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x793638ef3b7299deaa0496e61212d01fbaabc1fb \
  resolvers/EntitiesResolver.sol:EntitiesResolver
 
@@ -132,7 +132,7 @@ forge verify-contract \
 
 forge verify-contract \
  --chain optimism \
- --etherscan-api-key JIF6AGF7HBFSH1RKAK398KAZ2UHZM9TBTJ \
+ --etherscan-api-key ... \
  0x4fb8eab75fc8422a72ccdf100ce3acaa29167b1f \
  resolvers/VotesResolver.sol:VotesResolver
 
