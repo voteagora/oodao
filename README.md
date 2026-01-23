@@ -11,130 +11,47 @@ This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO g
 # Eth Mainnet
 
 ## Entity Resolver Proxy:
-
 0xf246C55a4f91f08c991F566fcF063156f67e6c03
-
-ProxyAdmin: 0x8D7512290251bd5417A00730aBFA0E5fdba1094A
-
+#### ProxyAdmin
+0x8D7512290251bd5417A00730aBFA0E5fdba1094A
 ## Votes Resolver Proxy:
-
 0x576c9f4C976e2E6AF9E7093F1A23Fa31B21D4cB3
-
-ProxyAdmin: 0x4Ee4b7e6eE98e0b5361dACcF9062733858c4B066
-
-## Entities Implementation
-
-forge verify-contract \
- --chain mainnet \
- --etherscan-api-key ... \
- 0x76004fe594c9bc82effe6d6791b2269d4a85c7f4 \
- resolvers/EntitiesResolver.sol:EntitiesResolver
-
-## Votes Implementation
-
-forge verify-contract \
- --chain mainnet \
- --etherscan-api-key ... \
- 0x3bc0b1a341fdc3e09935f7e3cf69a4a401b2a982 \
- resolvers/VotesResolver.sol:VotesResolver
+#### ProxyAdmin
+0x4Ee4b7e6eE98e0b5361dACcF9062733858c4B066
 
 # Eth Sepolia
 
-## Entity Resolver Proxy:
-
+## Entity Resolver Proxy
 0x7106847Cc6c99E3D730D4f2a8312A905c0ad2ad7
-
-ProxyAdmin: 0xe84969F17B2628C71B421d552450b7F131bE07A2
-
-## Votes Resolver Proxy:
-
+#### ProxyAdmin
+0xe84969F17B2628C71B421d552450b7F131bE07A2
+## Votes Resolver Proxy
 0xC8EA7C7651245728BE57c2d4C5638F8eF843b0E7
-
-ProxyAdmin: 0xaFb13914085154869a6770d6bbcE1Cc9B3aDE560
-
-## Entities Implementation
-
-forge verify-contract \
- --chain sepolia \
- --etherscan-api-key ... \
- 0x3c8398c931a0dce8e7dfcf71ddf818fb20012878 \
- resolvers/EntitiesResolver.sol:EntitiesResolver
-
-## Votes Implementation
-
-forge verify-contract \
- --chain sepolia \
- --etherscan-api-key ... \
- 0x4eb776bded70c78838ad48547003e1e9790133bc \
- resolvers/VotesResolver.sol:VotesResolver
-
-# Entities Proxy? (not working yet)
-
-forge verify-contract \
- --chain sepolia \
- --etherscan-api-key ... \
- 0xdf0e5df7af27076e5ea57be9dc068ea36d970bc4 \
- lib/openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol:TransparentUpgradeableProxy
+#### ProxyAdmin
+0xaFb13914085154869a6770d6bbcE1Cc9B3aDE560
 
 # Base Mainnet
 
-## Entity Resolver Proxy:
-
+## Entity Resolver Proxy
 0xEF28EB0D4186E5795ddD25E792697abFBabceC42
-
-ProxyAdmin: 0x458fAdE53C9a7186b4f097527ee1441eBD8ecAD5
-
-## Votes Resolver Proxy:
-
+#### ProxyAdmin
+0x458fAdE53C9a7186b4f097527ee1441eBD8ecAD5
+## Votes Resolver Proxy
 0x83e02A6b7DA88d78a90Bdf7C0B8a9dd93624801c
-
-ProxyAdmin: 0xE6fDeEfD25c6973d57AA7757BA546027625c40a4
-
-## Entities Implementation
-
-forge verify-contract \
- --chain base \
- --etherscan-api-key ... \
- 0x74696ddE42619d9034A585F55C3Df499fc26cAa2 \
- resolvers/EntitiesResolver.sol:EntitiesResolver
-
-## Votes Implementation
-
-forge verify-contract \
- --chain base \
- --etherscan-api-key ... \
- 0xcAcd6Ea8155F77Ef177f05Eb42f83118578E81F2 \
- resolvers/VotesResolver.sol:VotesResolver
+#### ProxyAdmin
+0xE6fDeEfD25c6973d57AA7757BA546027625c40a4
 
 # OP Mainnet
 
 ## Entity Resolver Proxy:
-
 0x2829EE5e93cD1671140D8AE1fe7524Ba1F5AC6ad
-
-ProxyAdmin: 0xeb4Ceb297f180057CD6616d0FC5077Be795d6683
-
-## Votes Resolver Proxy:
-
+#### ProxyAdmin
+0xeb4Ceb297f180057CD6616d0FC5077Be795d6683
+## Votes Resolver Proxy
 0x3d0Ee8700f3A2267a677504FfEdAE54A15ABBE7B
+#### ProxyAdmin
+0x8e1892c1Eb9a2E20df90f9d55f25e765542c6790
 
-ProxyAdmin: 0x8e1892c1Eb9a2E20df90f9d55f25e765542c6790
-
-## Entities Implementation
-
-forge verify-contract \
- --chain optimism \
- --etherscan-api-key ... \
- 0x793638ef3b7299deaa0496e61212d01fbaabc1fb \
- resolvers/EntitiesResolver.sol:EntitiesResolver
-
-## Votes Implementation
-
-forge verify-contract \
- --chain optimism \
- --etherscan-api-key ... \
- 0x4fb8eab75fc8422a72ccdf100ce3acaa29167b1f \
- resolvers/VotesResolver.sol:VotesResolver
 
 ### Schema Hashes
 
@@ -222,24 +139,6 @@ forge verify-contract \
    'BADGE_DEFINITION' : '0xaa192e7d4d23ded5ce0d883324276131253880ae37f72dc5997327f9bae33d35',
    'IDENTITY_BADGE' : '0xcfa6d9f1417bdef7b4d77f2e2259da4a6356a3e445fc299a9aef3834e9f4031a',
 }
-```
-
-```
-X - INSTANTIATE
-X - PERMA_INSTANTIATE
-X - GRANT
-X - CREATE_PROPOSAL_TYPE
-O - CREATE_PROPOSAL
-X - CHECKED_PROPOSAL
-X - SET_PROPOSAL_TYPE
-X - SET_PARAM_VALUE
-V - DELEGATED_SIMPLE_VOTE
-V - DELEGATED_ADVANCED_VOTE
-V - SIMPLE_VOTE
-V - ADVANCED_VOTE
-X - DELETE
-X - BADGE_DEFINITION
-X - IDENTITY_BADGE
 ```
 
 ## Installation
@@ -527,107 +426,3 @@ For complete protocol specification, security considerations, and governance flo
 ## License
 
 Open source under the protocol defined in [protocol.md](./protocol.md).
-
-### Appendix
-
-#### Mainnet
-
-```
-FOR WEB:
-{
-   'INSTANTIATE' : '0x4564d3a746bafcf78838969daaff3ba173e9f5ab73ac3023ea98dd9220953e75',
-   'PERMA_INSTANTIATE' : '0xc825cf97f111a55edfb1bec7b6b624dae6ccab74a3a3a42f89891dfb0d06137b',
-   'GRANT' : '0x8c6e4ae96424697731fd6aaa20b759a25684af059a23ba1b6aa48a12c21fd5d7',
-   'CREATE_PROPOSAL_TYPE' : '0xab4e473a3f8a0a0a490619bcd2ecf23ad1be4720d4033fa16f2d1cbd1519caa1',
-   'CREATE_PROPOSAL' : '0x38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a',
-   'CHECK_PROPOSAL' : '0x80155c3a8c4ea17ce96e8899f7ab1ceca9e85382d7f893619a1d03947a70f844',
-   'SET_PROPOSAL_TYPE' : '0x0519039455b478a51b33c82934bf28814f5755f6bb21c20fc47fd98c2a3fafa3',
-   'SET_PARAM_VALUE' : '0x5c27757206150b56764617513558234fc12ab9bb64eee71afb525fa9689c4842',
-   'DELEGATED_SIMPLE_VOTE' : '0x59bad5b0800beda0617b1d883711be28f8a0e619ef549310bfa6432ba64ab399',
-   'DELEGATED_ADVANCED_VOTE' : '0xfcff350666dcf68a382ea5e22ac4529915312b29f3bfe5a070424dcc781e354e',
-   'SIMPLE_VOTE' : '0x12cd8679de42e111a5ece9f2aee44dc8b8351024dea881cda97c2ff5b58349f6',
-   'ADVANCED_VOTE' : '0xc4465af5d96b474b1c7a6418500461d3de1fc35552679bf695eb2b3124817dce',
-   'DELETE' : '0x8c97e2700d9a3e52e76a4bf3c42b5a5d178f193cb14f6e2ddbc6db4ed1eae767',
-}
-FOR GOLDKSKY:
-   OR topics like '%4564d3a746bafcf78838969daaff3ba173e9f5ab73ac3023ea98dd9220953e75%'
-   OR topics like '%c825cf97f111a55edfb1bec7b6b624dae6ccab74a3a3a42f89891dfb0d06137b%'
-   OR topics like '%8c6e4ae96424697731fd6aaa20b759a25684af059a23ba1b6aa48a12c21fd5d7%'
-   OR topics like '%ab4e473a3f8a0a0a490619bcd2ecf23ad1be4720d4033fa16f2d1cbd1519caa1%'
-   OR topics like '%38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a%'
-   OR topics like '%80155c3a8c4ea17ce96e8899f7ab1ceca9e85382d7f893619a1d03947a70f844%'
-   OR topics like '%0519039455b478a51b33c82934bf28814f5755f6bb21c20fc47fd98c2a3fafa3%'
-   OR topics like '%5c27757206150b56764617513558234fc12ab9bb64eee71afb525fa9689c4842%'
-   OR topics like '%59bad5b0800beda0617b1d883711be28f8a0e619ef549310bfa6432ba64ab399%'
-   OR topics like '%fcff350666dcf68a382ea5e22ac4529915312b29f3bfe5a070424dcc781e354e%'
-   OR topics like '%12cd8679de42e111a5ece9f2aee44dc8b8351024dea881cda97c2ff5b58349f6%'
-   OR topics like '%c4465af5d96b474b1c7a6418500461d3de1fc35552679bf695eb2b3124817dce%'
-   OR topics like '%8c97e2700d9a3e52e76a4bf3c42b5a5d178f193cb14f6e2ddbc6db4ed1eae767%'
-FOR YAML:
-cmd:
-  1:
-    INSTANTIATE: '0x4564d3a746bafcf78838969daaff3ba173e9f5ab73ac3023ea98dd9220953e75'
-    PERMA_INSTANTIATE: '0xc825cf97f111a55edfb1bec7b6b624dae6ccab74a3a3a42f89891dfb0d06137b'
-    GRANT: '0x8c6e4ae96424697731fd6aaa20b759a25684af059a23ba1b6aa48a12c21fd5d7'
-    CREATE_PROPOSAL_TYPE: '0xab4e473a3f8a0a0a490619bcd2ecf23ad1be4720d4033fa16f2d1cbd1519caa1'
-    CREATE_PROPOSAL: '0x38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a'
-    CHECK_PROPOSAL: '0x80155c3a8c4ea17ce96e8899f7ab1ceca9e85382d7f893619a1d03947a70f844'
-    SET_PROPOSAL_TYPE: '0x0519039455b478a51b33c82934bf28814f5755f6bb21c20fc47fd98c2a3fafa3'
-    SET_PARAM_VALUE: '0x5c27757206150b56764617513558234fc12ab9bb64eee71afb525fa9689c4842'
-    DELEGATED_SIMPLE_VOTE: '0x59bad5b0800beda0617b1d883711be28f8a0e619ef549310bfa6432ba64ab399'
-    DELEGATED_ADVANCED_VOTE: '0xfcff350666dcf68a382ea5e22ac4529915312b29f3bfe5a070424dcc781e354e'
-    SIMPLE_VOTE: '0x12cd8679de42e111a5ece9f2aee44dc8b8351024dea881cda97c2ff5b58349f6'
-    ADVANCED_VOTE: '0xc4465af5d96b474b1c7a6418500461d3de1fc35552679bf695eb2b3124817dce'
-    DELETE: '0x8c97e2700d9a3e52e76a4bf3c42b5a5d178f193cb14f6e2ddbc6db4ed1eae767'
-```
-
-#### Sepolia
-
-```
-FOR WEB:
-{
-   'INSTANTIATE' : '0xa45718ef6b8758277682e9914ed85b960e19fd8331ed75e24641d228b7efcd2d',
-   'PERMA_INSTANTIATE' : '0x3921c650e5c0a565fe4e2b5dad38546999588bd18904a3354641ca6c998f6bc4',
-   'GRANT' : '0xd430f8dc7a9503e92e621503eed2c716a524604be530842601d7fb0e1bb8ff15',
-   'CREATE_PROPOSAL_TYPE' : '0x4147434e77680f972dcaa494427b876fa0f5ecdfde56131dd24a988ad90a6950',
-   'CREATE_PROPOSAL' : '0x38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a',
-   'CHECK_PROPOSAL' : '0x08df8e6e629077cabef4ed15cd4ff4f2359c2a60ad65b8355ac1f905b8f23a6f',
-   'SET_PROPOSAL_TYPE' : '0xa6ca209ead271e33d86bf969fb5b9d5f559bf3fb22765ede70652b1faa4973b5',
-   'SET_PARAM_VALUE' : '0xa1e21d322b14d3d79bd697b106b7374e19a61eb766907ef27d392dd635d9642f',
-   'DELEGATED_SIMPLE_VOTE' : '0x291f9b12f6624076505cb07cc62acf79bd7403cceb435e91d279dcbe6336c94b',
-   'DELEGATED_ADVANCED_VOTE' : '0xd9a51aa77ea609950350db55093af36e4c0dce621a131164cb7b410b9c2435bc',
-   'SIMPLE_VOTE' : '0x19c36b80a224c4800fd6ed68901ec21f591563c8a5cb2dd95382d430603f91ff',
-   'ADVANCED_VOTE' : '0x991b014c62b19364882fc89dbf3baa6104b4598ee2c4f29152be2cbcfcb4cb81',
-   'DELETE' : '0x2c451b53c595d44441eb1e8242912a0446e7bfc5f745535537908bef47e6e334',
-}
-FOR GOLDKSKY:
-   OR topics like '%a45718ef6b8758277682e9914ed85b960e19fd8331ed75e24641d228b7efcd2d%'
-   OR topics like '%3921c650e5c0a565fe4e2b5dad38546999588bd18904a3354641ca6c998f6bc4%'
-   OR topics like '%d430f8dc7a9503e92e621503eed2c716a524604be530842601d7fb0e1bb8ff15%'
-   OR topics like '%4147434e77680f972dcaa494427b876fa0f5ecdfde56131dd24a988ad90a6950%'
-   OR topics like '%38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a%'
-   OR topics like '%08df8e6e629077cabef4ed15cd4ff4f2359c2a60ad65b8355ac1f905b8f23a6f%'
-   OR topics like '%a6ca209ead271e33d86bf969fb5b9d5f559bf3fb22765ede70652b1faa4973b5%'
-   OR topics like '%a1e21d322b14d3d79bd697b106b7374e19a61eb766907ef27d392dd635d9642f%'
-   OR topics like '%291f9b12f6624076505cb07cc62acf79bd7403cceb435e91d279dcbe6336c94b%'
-   OR topics like '%d9a51aa77ea609950350db55093af36e4c0dce621a131164cb7b410b9c2435bc%'
-   OR topics like '%19c36b80a224c4800fd6ed68901ec21f591563c8a5cb2dd95382d430603f91ff%'
-   OR topics like '%991b014c62b19364882fc89dbf3baa6104b4598ee2c4f29152be2cbcfcb4cb81%'
-   OR topics like '%2c451b53c595d44441eb1e8242912a0446e7bfc5f745535537908bef47e6e334%'
-FOR YAML:
-cmd:
-  11155111:
-    INSTANTIATE: '0xa45718ef6b8758277682e9914ed85b960e19fd8331ed75e24641d228b7efcd2d'
-    PERMA_INSTANTIATE: '0x3921c650e5c0a565fe4e2b5dad38546999588bd18904a3354641ca6c998f6bc4'
-    GRANT: '0xd430f8dc7a9503e92e621503eed2c716a524604be530842601d7fb0e1bb8ff15'
-    CREATE_PROPOSAL_TYPE: '0x4147434e77680f972dcaa494427b876fa0f5ecdfde56131dd24a988ad90a6950'
-    CREATE_PROPOSAL: '0x38bfba767c2f41790962f09bcf52923713cfff3ad6d7604de7cc77c15fcf169a'
-    CHECK_PROPOSAL: '0x08df8e6e629077cabef4ed15cd4ff4f2359c2a60ad65b8355ac1f905b8f23a6f'
-    SET_PROPOSAL_TYPE: '0xa6ca209ead271e33d86bf969fb5b9d5f559bf3fb22765ede70652b1faa4973b5'
-    SET_PARAM_VALUE: '0xa1e21d322b14d3d79bd697b106b7374e19a61eb766907ef27d392dd635d9642f'
-    DELEGATED_SIMPLE_VOTE: '0x291f9b12f6624076505cb07cc62acf79bd7403cceb435e91d279dcbe6336c94b'
-    DELEGATED_ADVANCED_VOTE: '0xd9a51aa77ea609950350db55093af36e4c0dce621a131164cb7b410b9c2435bc'
-    SIMPLE_VOTE: '0x19c36b80a224c4800fd6ed68901ec21f591563c8a5cb2dd95382d430603f91ff'
-    ADVANCED_VOTE: '0x991b014c62b19364882fc89dbf3baa6104b4598ee2c4f29152be2cbcfcb4cb81'
-    DELETE: '0x2c451b53c595d44441eb1e8242912a0446e7bfc5f745535537908bef47e6e334'
-```
