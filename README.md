@@ -2,6 +2,28 @@
 
 A Python command-line tool for deploying schemas and creating attestations using the [On & Offchain Attestation DAO Protocol](./protocol.md) with Ethereum Attestation Service (EAS).
 
+The protocol works using a collection of verbs, mixed with resolvers to handle the double-spend problem and voting window of decentralized voting.
+
+```
+X - INSTANTIATE
+X - PERMA_INSTANTIATE
+X - GRANT
+X - CREATE_PROPOSAL_TYPE
+O - CREATE_PROPOSAL
+X - CHECKED_PROPOSAL
+X - SET_PROPOSAL_TYPE
+X - SET_PARAM_VALUE
+V - DELEGATED_SIMPLE_VOTE
+V - DELEGATED_ADVANCED_VOTE
+V - SIMPLE_VOTE
+V - ADVANCED_VOTE
+X - DELETE
+X - BADGE_DEFINITION
+X - IDENTITY_BADGE
+```
+
+
+
 ## Overview
 
 This CLI wraps Foundry's `forge` commands to simplify interaction with the DAO governance protocol defined in [protocol.md](./protocol.md).
