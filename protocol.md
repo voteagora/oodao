@@ -99,7 +99,7 @@ Attestations may be issued **onchain** (with optional custom resolvers) or **off
 - `approval_threshold` (`uint32`): Percentage required for approval (e.g., 50 for 50%).
 - `name` (`string`): Human-readable name for this proposal type.
 - `description` (`string`): Description of this proposal type and its purpose.
-- `class` (`string`): Proposal class. Supported values: `"STANDARD"`, `"APPROVAL"`, `"OPTIMISTIC"`.  
+- `class` (`string`): Proposal class. Supported values: `"gov-proposal"`, `"tempcheck"`.  
 
 ---
 

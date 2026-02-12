@@ -37,7 +37,7 @@ contract DaoSchemasV020 {
     // - approval_threshold: percentage required for approval (e.g., 50 for 50%)
     // - name: human-readable name for this proposal type
     // - description: description of this proposal type
-    // - class: must be "STANDARD", "APPROVAL", or "OPTIMISTIC"
+    // - class: must be "gov-proposal", "tempcheck"
     // - kwargs: JSON string
     string public constant CREATE_PROPOSAL_TYPE_SCHEMA =
         "uint32 quorum,uint32 approval_threshold,string name,string description,string class,string kwargs";

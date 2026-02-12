@@ -283,19 +283,19 @@ Deploy the CREATE_PROPOSAL_TYPE schema:
 ./eas_cli.py deploy CREATE_PROPOSAL_TYPE
 ```
 
-Define a standard proposal type:
+Define a gov-proposal proposal type:
 
 ```bash
 ./eas_cli.py attest CREATE_PROPOSAL_TYPE \
   0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef \
   0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890 \
-  "standard" \
+  "gov-proposal" \
   '{"quorum": "50%", "threshold": "majority"}'
 ```
 
 **Schema:** `bytes32 dao_uuid, bytes32 proposal_type_uuid, string class, string kwargs`
 
-**Supported classes:** `standard`, `approval`, `optimistic`
+**Supported classes:** `gov-proposal`, `tempcheck`
 
 ### 4. Create a Proposal
 
@@ -432,7 +432,7 @@ For complete protocol specification, security considerations, and governance flo
 
 - **dao_uuid**: Unique identifier for a DAO (bytes32)
 - **Permissions**: Authority delegated via GRANT attestations
-- **Proposal Types**: Classes that define voting rules (standard, approval, optimistic)
+- **Proposal Types**: Classes that define voting rules (gov-proposal, tempcheck)
 - **Timestamps**: POSIX seconds since epoch (UTC)
 
 ### Example Governance Flow
